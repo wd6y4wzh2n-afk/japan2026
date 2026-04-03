@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japan 2026 · Inna & Simon</title>
+<style>@font-face{font-family:'Abadi';src:local('Abadi MT Condensed'),local('Abadi'),local('Century Gothic'),local('Trebuchet MS');}</style>
+<style>
+  :root {
+    --ink: #1a1410;
+    --ash: #3a3530;
+    --mist: #5a5450;
+    --cloud: #9a9490;
+    --paper: #f8f4ef;
+    --parchment: #ede8e0;
+    --cream: #faf7f2;
+    --sakura: #e8a0a8;
+    --sakura-light: #f5dde0;
+    --indigo: #2d4a7a;
+    --indigo-light: #dce6f5;
+    --gold: #b8860b;
+    --gold-light: #fdf3d8;
+    --moss: #4a6741;
+    --moss-light: #e0ead8;
+    --red: #c0392b;
+    --red-light: #fce8e6;
+    --amber: #b07b00;
+    --amber-light: #fff3cd;
+    --teal: #2a6b6b;
+    --teal-light: #d8eded;
+    --done: #3a7a4a;
+    --done-light: #e0f0e5;
+    --purple: #6a3d8a;
+    --purple-light: #f0e8f8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Abadi MT Condensed', 'Abadi', 'Century Gothic', 'Trebuchet MS', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; font-size: 16px; line-height: 1.6; }
+
+  .header {
+    background: var(--ink); color: white; padding: 20px 28px 16px;
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .header-left h1 { font-family: 'Abadi MT Condensed', 'Abadi', 'Century Gothic', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: 0.02em; }
+  .header-left h1 span { color: var(--sakura); }
+  .header-left p { font-size: 11px; color: var(--cloud); margin-top: 2px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .tabs { display: flex; gap: 4px; background: rgba(255,255,255,0.08); border-radius: 10px; padding: 4px; }
+  .tab { padding: 7px 16px; border-radius: 7px; border: none; cursor: pointer; font-family: 'Abadi MT Condensed', 'Abadi', 'Century Gothic', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 500; transition: all 0.2s; background: transparent; color: var(--cloud); }
+  .tab.active { background: var(--sakura); color: var(--ink); }
+  .tab:hover:not(.active) { background: rgba(255,255,255,0.12); color: white; }
+  .progress-bar { display: flex; align-items: center; gap: 10px; }
+  .progress-text { font-size: 11px; color: var(--cloud); white-space: nowrap; }
+  .progress-track { width: 100px; height: 5px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--sakura), #e8c0a0); border-radius: 3px; transition: width 0.5s ease; }
+  .main { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .countdown-bar {
+    background: linear-gradient(135deg, var(--ink) 0%, #2d2420 100%);
+    border-radius: 14px; padding: 18px 22px; margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: white;
+  }
+  .countdown-left h3 { font-family: 'Abadi MT Condensed', 'Abadi', 'Century Gothic', 'Trebuchet MS', sans-serif; font-size: 15px; margin-bottom: 2px; }
+  .countdown-left p { font-size: 11px; color: var(--cloud); }
+  .countdown-numbers { display: flex; gap: 16px; }
+  .countdown-unit { text-align: center; }
+  .countdown-unit .n { font-family: 'Abadi MT Condensed', 'Abadi', 'Century Gothic', 'Trebuchet MS', sans-serif; font-size: 26px; font-weight: 700; color: var(--sakura); line-height: 1; }
+  .countdown-unit .u { font-size: 10px; color: var(--cloud); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .hotel-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .hotel-card {
+    background: white; border-radius: 12px; padding: 14px 16px;
+    border: 1.5px solid var(--parchment); cursor: pointer; transition: all 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .hotel-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--c, var(--indigo)); border-radius: 12px 12px 0 0; }
+  .hotel-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .hotel-card.selected { border-color: var(--c, var(--indigo)); background: var(--cl, var(--indigo-light)); }
+  .hotel-card .emoji { font-size: 20px; margin-bottom: 5px; display: block; }
+  .hotel-card .city-name { font-family: 'Abadi MT Condensed', 'Abadi', 'Century Gothic', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; }
+  .hotel-card .city-dates { font-size: 10px; color: var(--mist); margin-top: 1px; }
+  .hotel-card .city-nights { font-size: 10px; color: var(--c, var(--indigo)); font-weight: 600; margin-top: 3px; }
+
+  .day-selector { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 16px; }
+  .day-btn { padding: 5px 12px; border-radius: 16px; border: 1.5px solid var(--parchment); background: white; cursor: pointer; font-size: 11px; font-family: 'Abadi MT Condensed', 'Abadi', 'Century Gothic', 'Trebuchet MS', sans-serif; font-weight: 500; transition: all 0.2s; color: var(--ash); }
+  .day-btn:hover { border-color: var(--sakura); }
+  .day-btn.active { background: var(--ink); color: white; border-color: var(--ink); }
+
+  .day-view { background: white; border-radius: 16px; padding: 22px; border: 1.5px solid var(--parchment); box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+  .day-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--parchment); flex-wrap: wrap; gap: 10px; }
+  .day-header h2 { font-family: 'Abadi MT Condensed', 'Abadi', 'Century Gothic', 'Trebuchet MS', sans-serif; font-size: 18px; font-weight: 700; }
+  .day-header .hotel-tag { font-size: 10px; background: var(--indigo-light); color: var(--indigo); padding: 3px 8px; border-radius: 16px; font-weight: 500; }
+  .day-theme { font-size: 11px; color: var(--mist); margin-bottom: 16px; font-style: italic; }
+
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline-item { display: grid; grid-template-columns: 80px 1fr; gap: 0; position: relative; }
+  .timeline-item::before { content: ''; position: absolute; left: 83px; top: 26px; bottom: -4px; width: 2px; background: var(--parchment); }
+  .timeline-item:last-child::before { display: none; }
+  .tl-time { font-size: 10px; color: var(--ash); padding: 12px 10px 12px 0; text-align: right; font-weight: 500; line-height: 1.3; padding-top: 14px; }
+  .tl-content { padding: 8px 0 8px 18px; position: relative; }
+  .tl-content::before { content: ''; position: absolute; left: 6px; top: 15px; width: 8px; height: 8px; border-radius: 50%; background: var(--sakura); border: 2px solid white; box-shadow: 0 0 0 1.5px var(--sakura); }
+  .tl-content.confirmed::before { background: var(--done); box-shadow: 0 0 0 1.5px var(--done); }
+  .tl-content.highlight::before { background: var(--gold); box-shadow: 0 0 0 1.5px var(--gold); width: 10px; height: 10px; top: 14px; }
+  .tl-content.warning::before { background: var(--red); box-shadow: 0 0 0 1.5px var(--red); }
+  .tl-content.pm-routine::before { background: var(--purple); box-shadow: 0 0 0 1.5px var(--purple); }
+  .tl-activity { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+  .tl-note { font-size: 12px; color: var(--ash); margin-top: 3px; line-height: 1.55; }
+  .tl-directions { font-size: 11.5px; color: var(--indigo); margin-top: 4px; line-height: 1.5; background: var(--indigo-light); padding: 6px 10px; border-radius: 6px; border-left: 2px solid var(--indigo); }
+  .tl-badge { display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 8px; font-weight: 600; margin-left: 5px; vertical-align: middle; }
+  .badge-confirmed { background: var(--done-light); color: var(--done); }
+  .badge-warning { background: var(--red-light); color: var(--red); }
+  .badge-optional { background: var(--amber-light); color: var(--amber); }
+
+  .restaurant-card {
+    background: var(--gold-light); border: 1.5px solid #e8d090; border-radius: 10px;
+    padding: 12px 14px; margin-top: 6px;
+  }
+  .restaurant-card .r-name { font-size: 13px; font-weight: 600; color: var(--gold); }
+  .restaurant-card .r-detail { font-size: 11.5px; color: var(--ash); margin-top: 4px; line-height: 1.6; }
+  .restaurant-card .r-directions { font-size: 11.5px; color: var(--indigo); margin-top: 5px; background: rgba(45,74,122,0.08); padding: 5px 8px; border-radius: 5px; }
+
+  .optional-box {
+    background: var(--amber-light); border: 1.5px solid #e8d090; border-radius: 10px;
+    padding: 10px 14px; margin-top: 6px; font-size: 11.5px; color: var(--ash); line-height: 1.55;
+  }
+  .optional-box strong { color: var(--amber); }
+
+  .info-box { border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
+  .info-box.emergency { background: var(--red-light); border: 1px solid #f0b0a8; }
+  .info-box.cash { background: var(--gold-light); border: 1px solid #e8d090; }
+  .info-box h4 { font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+  .info-box p { font-size: 11.5px; line-height: 1.6; color: var(--ash); }
+
+
+
+  .action-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .stat-card { background: white; border-radius: 12px; padding: 14px; text-align: center; border: 1.5px solid var(--parchment); }
+  .stat-card .num { font-family: 'Abadi MT Condensed', 'Abadi', 'Century Gothic', 'Trebuchet MS', sans-serif; font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 3px; }
+  .stat-card .label { font-size: 10px; color: var(--mist); text-transform: uppercase; letter-spacing: 0.06em; }
+  .action-section { margin-bottom: 16px; }
+  .action-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding: 8px 12px; border-radius: 9px; font-size: 12px; font-weight: 600; letter-spacing: 0.02em; }
+  .section-done { background: var(--done-light); color: var(--done); }
+  .section-soon { background: var(--amber-light); color: var(--amber); }
+  .section-later { background: var(--indigo-light); color: var(--indigo); }
+  .action-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: white; border-radius: 9px; border: 1.5px solid var(--parchment); margin-bottom: 7px; transition: all 0.2s; }
+  .action-item:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  .action-item.done { opacity: 0.6; }
+  .action-check { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--cloud); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; transition: all 0.2s; font-size: 10px; }
+  .action-check.checked { background: var(--done); border-color: var(--done); color: white; }
+  .action-check:hover:not(.checked) { border-color: var(--sakura); }
+  .action-body { flex: 1; }
+  .action-title { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; }
+  .action-title.strikethrough { text-decoration: line-through; color: var(--mist); }
+  .action-meta { display: flex; gap: 6px; margin-top: 3px; flex-wrap: wrap; align-items: center; }
+  .meta-tag { font-size: 10px; padding: 1px 7px; border-radius: 7px; font-weight: 500; }
+  .tag-date { background: var(--parchment); color: var(--ash); }
+  .tag-done { background: var(--done-light); color: var(--done); }
+  .tag-soon { background: var(--amber-light); color: var(--amber); }
+  .tag-info { background: var(--indigo-light); color: var(--indigo); }
+  .action-note { font-size: 11.5px; color: var(--ash); margin-top: 3px; line-height: 1.5; }
+
+
+  .day-nav { display: flex; justify-content: space-between; margin-top: 16px; gap: 8px; }
+  .nav-btn { padding: 7px 14px; background: var(--parchment); border: none; border-radius: 7px; font-family: 'Abadi MT Condensed', 'Abadi', 'Century Gothic', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 500; cursor: pointer; color: var(--ash); transition: all 0.2s; }
+  .nav-btn:hover { background: var(--ink); color: white; }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+
+
+  @media (max-width: 600px) {
+    .header { padding: 14px; }
+    .main { padding: 14px 10px; }
+    .timeline-item { grid-template-columns: 65px 1fr; }
+    .countdown-unit .n { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>🇯🇵 Japan 2026 · <span>Inna & Simon</span></h1>
+    <p>Apr 7–22 · Tokyo · Kanazawa · Kyoto · Arima · Osaka</p>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('itinerary',event)">🗺️ Itinerary</button>
+    <button class="tab" onclick="switchTab('actions',event)">✅ Actions</button>
+    <button class="tab" onclick="switchTab('hotels',event)">🏨 Hotels</button>
+  </div>
+  <div class="progress-bar">
+    <span class="progress-text" id="progress-text">Loading...</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="main">
+
+<div class="panel active" id="panel-itinerary">
+  <div class="countdown-bar">
+    <div class="countdown-left">
+      <h3>✈️ Departure from IAD · UA 803</h3>
+      <p>April 7, 2026 · 12:10 PM EDT · Arrives Tokyo Haneda April 8 at 3:25 PM</p>
+    </div>
+    <div class="countdown-numbers" id="countdown-numbers"></div>
+  </div>
+
+  <div class="hotel-strip">
+    <div class="hotel-card selected" style="--c:#2d4a7a;--cl:#dce6f5" onclick="selectCity('tokyo',event)">
+      <span class="emoji">🗼</span><div class="city-name">Tokyo</div><div class="city-dates">Apr 8–12</div><div class="city-nights">5 nights</div>
+    </div>
+    <div class="hotel-card" style="--c:#4a6741;--cl:#e0ead8" onclick="selectCity('kanazawa',event)">
+      <span class="emoji">⚔️</span><div class="city-name">Kanazawa</div><div class="city-dates">Apr 13–14</div><div class="city-nights">2 nights</div>
+    </div>
+    <div class="hotel-card" style="--c:#8a3040;--cl:#f5dde0" onclick="selectCity('kyoto',event)">
+      <span class="emoji">⛩️</span><div class="city-name">Kyoto</div><div class="city-dates">Apr 15–18</div><div class="city-nights">4 nights</div>
+    </div>
+    <div class="hotel-card" style="--c:#2a6b6b;--cl:#d8eded" onclick="selectCity('arima',event)">
+      <span class="emoji">♨️</span><div class="city-name">Arima Onsen</div><div class="city-dates">Apr 18–19</div><div class="city-nights">1 night</div>
+    </div>
+    <div class="hotel-card" style="--c:#b07b00;--cl:#fff3cd" onclick="selectCity('osaka',event)">
+      <span class="emoji">🏯</span><div class="city-name">Osaka</div><div class="city-dates">Apr 19–22</div><div class="city-nights">3 nights</div>
+    </div>
+  </div>
+
+  <div class="day-selector" id="day-selector"></div>
+  <div class="day-view" id="day-view"></div>
+</div>
+
+<div class="panel" id="panel-actions">
+  <div class="action-summary">
+    <div class="stat-card"><div class="num" style="color:var(--done)" id="stat-done">0</div><div class="label">Done</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--amber)" id="stat-open">0</div><div class="label">Open</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--gold)" id="stat-total">0</div><div class="label">Total</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--indigo)" id="stat-days">17</div><div class="label">Days to Go</div></div>
+  </div>
+  <div id="action-list-container"></div>
+</div>
+
+<div class="panel" id="panel-hotels">
+  <div id="hotels-container"></div>
+  <div class="info-box emergency" style="margin-top:20px">
+    <h4 style="color:var(--red)">🚨 Emergency Numbers</h4>
+    <p>Police: <strong>110</strong> · Ambulance/Fire: <strong>119</strong><br>
+    US Embassy Tokyo: <strong>+81-3-3224-5000</strong><br>
+    Japan Tourist Info Hotline (English, 24hr): <strong>050-3816-2787</strong><br>
+    Travel insurance: <em>Add your policy number before travel</em></p>
+  </div>
+  <div class="info-box cash" style="margin-top:12px">
+    <h4 style="color:var(--amber)">💴 Cash to Carry by Day</h4>
+    <p>
+    <strong>Apr 8 (Arrival):</strong> ¥10,000 — ICOCA top-up, small purchases, tips<br>
+    <strong>Apr 9 (Ryogoku):</strong> ¥5,000 — Museum ¥800, lunch, transport<br>
+    <strong>Apr 10 (teamLab):</strong> ¥5,000 — Tokyo Tower, misc<br>
+    <strong>Apr 11 (Nikko):</strong> ¥8,000 — Bus pass ¥3,000, Villa ¥600, lunch<br>
+    <strong>Apr 12 (Kanazawa arrival):</strong> ¥5,000 — Lunch, garden ¥320<br>
+    <strong>Apr 13 (Kanazawa full day):</strong> ¥10,000 — <em>⚠️ Ninja Temple ¥1,000 CASH ONLY</em>, gold-leaf, misc<br>
+    <strong>Apr 14 (Kyoto arrival):</strong> ¥5,000 — Taxi ¥1,500, temples ¥400<br>
+    <strong>Apr 15 (Nara):</strong> ¥6,000 — Todai-ji ¥600, lunch, transport<br>
+    <strong>Apr 16 (Sagano + Arashiyama):</strong> ¥8,000 — Train ¥880/person, Tenryuji ¥500, Okochi ¥1,000, Kinkaku-ji ¥500, Ryoan-ji ¥600<br>
+    <strong>Apr 17 (Uji):</strong> ¥5,000 — Byodoin ¥900, tea ceremony ¥500, misc<br>
+    <strong>Apr 18 (Arima):</strong> ¥5,000 — Public baths ¥650 each, misc<br>
+    <strong>Apr 19–21 (Osaka/Kobe):</strong> ¥15,000 — Markets, transport, Kobe misc<br>
+    <strong>Apr 22 (Departure):</strong> ¥2,000 — Last purchases, tips
+    </p>
+  </div>
+</div>
+
+</div>
+
+<script>
+const HOTEL_DATA = {
+  tokyo: {
+    name: 'Onyado Nono Asakusa Natural Hot Spring',
+    nameJa: 'おやど野の 浅草天然温泉',
+    address: '2-7-20 Asakusa, Taito-ku, Tokyo 111-0032',
+    addressJa: '東京都台東区浅草2-7-20',
+    phone: '+81 3-5830-0510',
+    checkin: '15:00', checkout: '11:00',
+    conf: 'Booking.com #5363577050 · PIN 0100 · Cancel before April 5',
+    note: 'Tatami floors throughout · Shoes off at lobby entry — store in lockers · Natural hot spring baths men/women separate open 15:00–09:00 · Free ramen + ice cream every evening · No private bathrooms in rooms',
+    directions: '🚇 From Haneda Terminal 3: Keikyu Airport Line → Toei Asakusa Line direct → Asakusa Station (~45 min, ¥610 on ICOCA). Exit A4. Walk 8 min north toward the giant red Kaminarimon Gate — hotel is on Kokusai-dori just before the gate.'
+  },
+  kanazawa: {
+    name: 'Hyatt Centric Kanazawa',
+    nameJa: 'ハイアット セントリック 金沢',
+    address: '1-5-2 Hirooka, Kanazawa, Ishikawa 920-0031',
+    addressJa: '石川県金沢市広岡1-5-2',
+    phone: '+81 76-256-1234',
+    checkin: '15:00', checkout: '12:00',
+    conf: 'Amex Collection — confirmed · See Amex booking terms for cancellation',
+    note: 'Literally 5-min walk from Kanazawa Station West Exit · Rooftop bar with Tsuzumi-mon Gate views · Concierge speaks English and can call Ninja Temple in Japanese · Amex collection perks apply',
+    directions: '🚄 From Tokyo Station: Hokuriku Shinkansen (Kagayaki or Hakutaka) → Kanazawa Station (~2h40). Individual ticket. Reserve seats at Tokyo Station JR Midori no Madoguchi window before boarding. Walk 5 min west from station exit.'
+  },
+  kyoto: {
+    name: "Fauchon L'Hôtel Kyoto",
+    nameJa: 'フォションホテル京都',
+    address: '406 Namba-cho, Matsubara sagaru Kawaramachi-dori, Shimogyo-ku, Kyoto 600-8027',
+    addressJa: '京都府京都市下京区河原町通松原下る難波町406',
+    phone: '+81 75-751-7711',
+    checkin: '15:00', checkout: '12:00',
+    conf: 'Amex FHR — $1,320 / ¥195,000 · Cancel before April 5 for full refund',
+    note: 'Parisian luxury meets Kyoto elegance · In-room Gourmet Bar stocked with Fauchon treats (complimentary, restocked daily) · Grand Café on 10F with Higashiyama Mountain views · Le Spa FAUCHON · Champagne bar · 6-min walk from Kiyomizu-Gojo Station (Keihan Line)',
+    directions: '🚄 From Kanazawa: JR Thunderbird Ltd. Express → Kyoto Station (~2h10). Buy individual ticket at Kanazawa Station Midori no Madoguchi (green window) Taxi from Kyoto Station Central Gate → Fauchon ~10 min / ¥1,200–1,500. Show driver: 京都府京都市下京区河原町通松原下る難波町406'
+  },
+  arima: {
+    name: 'Tocen Goshoboh Ryokan',
+    nameJa: '陶泉 御所坊',
+    address: '858 Arima-onsen, Kita-ku, Kobe-shi, Hyogo 651-1401',
+    addressJa: '兵庫県神戸市北区有馬町858',
+    phone: '+81 78-904-0551',
+    checkin: '15:00', checkout: '10:00–11:00',
+    conf: 'Booking.com #6870452926 · PIN 3654 · Dinner 18:30 + breakfast included',
+    note: 'Founded 1191 — 800+ years of history · Only 12 rooms · Gold (kinsen) iron-salt spring included · Yukata + geta provided for town walks · Drinks NOT included in dinner — order à la carte (budget ¥3,000–5,000) · Checkout strict 10:00–11:00 AM',
+    directions: '🚌 From Kyoto Station South Exit (Hachijo side): Hankyu Expressway Bus → Arima Onsen (~75 min, ¥1,850/person). Board at Hachijo Bus Terminal — NOTE: this is the SOUTH side of Kyoto Station, different from the main north entrance. Allow 15 min to walk from Fauchon to Kyoto Station + 10 min to find terminal. Total depart hotel by 8:00 AM for 9:00 AM bus. From Arima bus stop: 5-min walk toward town center following signs. Show driver: 兵庫県神戸市北区有馬町858'
+  },
+  osaka: {
+    name: 'Caption by Hyatt Namba Osaka',
+    nameJa: 'キャプションバイハイアット難波大阪',
+    address: '2-7-5 Nippombashi, Chuo-ku, Osaka 542-0073',
+    addressJa: '大阪府大阪市中央区日本橋2-7-5',
+    phone: '+81 6-6649-4321',
+    checkin: '15:00', checkout: '11:00',
+    conf: 'Hyatt Points (9,500 pts/night) — confirmed · Cancel by 11:59 PM 1 day prior',
+    note: '5-min walk to Dōtonbori · Talk Shop café open 7AM–5PM · 167 rooms · Book departure taxi with front desk evening of Apr 21',
+    directions: '🚌 From Arima: Hankyu Bus → Osaka Umeda (~75 min). Then Osaka Metro Midosuji Line (red) → Namba Station (~10 min, ¥230). Exit 14. Walk 5 min south to hotel.'
+  },
+  itami: {
+    name: 'Osaka Air Terminal Hotel',
+    nameJa: '大阪エアターミナルホテル',
+    address: 'Osaka International Airport Terminal Building, Central Block Level 3, Toyonaka, Osaka 560-0036',
+    addressJa: '大阪府豊中市螢池西町3-555 大阪国際空港ターミナルビル内',
+    phone: '+81 6-6856-1741',
+    checkin: '14:00', checkout: '11:00',
+    conf: 'Confirmed — see your booking',
+    note: 'Inside the terminal building — literally walk to your gate · Japanese breakfast available from 6:00 AM · Perfect for early morning flights · Airport terminal open 5:30 AM',
+    directions: '🚇 From Caption by Hyatt Namba: Osaka Metro Midosuji Line → Umeda → Osaka Monorail → Osaka Airport Station (~35 min). OR taxi from Caption directly ~30 min ¥6,500–7,000. Hotel entrance is inside terminal Central Block Level 3.'
+  }
+};
+
+const RESTAURANTS = {
+  imahan: {
+    name: 'Asakusa Imahan Kokusai Street',
+    confirmed: true,
+    date: 'April 8 · 6:30 PM',
+    address: '3-1-12 Nishi-Asakusa, Taito-ku, Tokyo 111-0035',
+    addressJa: '東京都台東区西浅草3-1-12',
+    phone: '+81 3-3841-1114',
+    what: 'Birthday sukiyaki · Private tatami room · Tokyo\'s finest sukiyaki since 1895 · Wagyu beef cooked tableside in sweet soy broth, dipped in raw egg',
+    included: 'Course from ¥11,000/person. Drinks extra.',
+    directions: '🚶 5-min walk from hotel. Head west on Kokusai-dori (International Street). Imahan is on the right side before the Asakusa-dori intersection. Look for the traditional wooden facade.'
+  },
+  sushikinari: {
+    name: 'Sushi Kinari (鮨 生成り)',
+    confirmed: true,
+    date: 'April 13 · 7:00 PM',
+    address: '1-17-8 Hikoso-machi, Kanazawa, Ishikawa 920-0901',
+    addressJa: '石川県金沢市彦三町1-17-8',
+    phone: '+81 70-4796-3487',
+    what: 'Aged sushi omakase · Sea of Japan seafood · Nodoguro (blackthroat sea perch) + uni hand roll course · ¥22,000/person · One of Kanazawa\'s most celebrated sushi counters',
+    included: 'Course only. Drinks + service charge extra. Smart casual dress.',
+    directions: '🚕 Taxi from Hyatt Centric ~10 min (¥1,200). Show driver: 彦三町1-17-8. Book via GO app or ask hotel concierge. OR 🚶 15-min walk east from Kanazawa Station through Katamachi district.',
+    app: 'Booked via TableCheck'
+  },
+  tocen: {
+    name: 'Sanboh Kan · Tocen Goshoboh',
+    confirmed: true,
+    date: 'April 18 · 18:30 (6:30 PM)',
+    address: 'Inside Tocen Goshoboh · 858 Arima-onsen, Kita-ku, Kobe',
+    addressJa: '兵庫県神戸市北区有馬町858 陶泉御所坊内',
+    phone: '+81 78-904-0551',
+    what: 'Kaiseki dinner · Hyogo mountain + sea cuisine inspired by Kamakura-period cooking · Beautifully presented seasonal courses · Dinner is included in room rate',
+    included: '⚠️ Dinner in room rate. DRINKS NOT INCLUDED — order à la carte. Budget ¥3,000–5,000 for drinks for two.',
+    directions: '♨️ Restaurant is inside the ryokan. Walk downstairs in your yukata — no shoes needed.'
+  },
+  mouriya: {
+    name: 'Mouriya Honten (モーリヤ本店)',
+    confirmed: true,
+    date: 'April 21 · Lunch',
+    address: '2-1-17 Shimoyamate-dori, Chuo-ku, Kobe 650-0011',
+    addressJa: '兵庫県神戸市中央区下山手通2-1-17',
+    phone: '+81 78-391-4603',
+    what: 'A5 certified Kobe beef teppanyaki · Established 1885 · Kobe\'s most historic beef restaurant · Chef presents your beef before cooking and photographs you with it — embrace it!',
+    included: 'Lunch sets from ¥8,000. Drinks extra. Open 11:00 AM–10:00 PM.',
+    directions: '🚶 5-min walk from Ikuta Shrine. Walk south down Kitanozaka slope, Mouriya is on the right on Shimoyamate-dori. JR Sannomiya Station West Gate is also 5 min away.',
+    app: 'Confirmed via Amex concierge'
+  }
+};
+
+const DAYS = [
+  // ═══ TOKYO ═══
+  {
+    id:'apr8', date:'April 8', dow:'Wednesday', city:'tokyo',
+    title:'✈️ Arrival Day · Birthday Celebration 🎂',
+    theme:'Land at Haneda · Asakusa · Birthday sukiyaki dinner',
+    hotel:'Onyado Nono Asakusa',
+    items:[
+      {time:'12:10 PM', act:'✈️ Depart IAD · UA 803', note:'United Airlines to Tokyo Haneda. ~14 hr flight. Conf: E3I636 / E48N1C. Terminal 3 at Haneda on arrival.'},
+      {time:'3:25 PM', act:'🛬 Arrive Tokyo Haneda (HND) · Terminal 3', note:'Welcome to Japan! Three things immediately on arrival: (1) Activate JR Pass at the JR Office in the arrivals hall — you need it from tomorrow. (2) Top up ICOCA at any ticket machine. (3) Clear immigration — have your hotel address ready: 2-7-20 Asakusa, Taito-ku, Tokyo.', dir:'🚇 Keikyu Airport Line from Haneda Terminal 3 Station → Toei Asakusa Line direct through service → Asakusa Station (~45 min, ¥610 on ICOCA). Trains every 10 min. Exit A4. Walk 8 min north — follow signs to Sensoji.'},
+      {time:'5:00 PM', act:'🏨 Check-in · Onyado Nono Asakusa', note:'Shoes off at the lobby entrance — store in the wooden lockers. This is your first taste of Japanese hospitality. Tatami floors, paper screens, the scent of hinoki wood. Your natural hot spring bath opens at 15:00 — perfect for post-flight recovery.'},
+      {time:'5:30 PM', act:'⛩️ Sensoji Temple at Dusk 🎂', note:'Founded 645 AD, this is Tokyo\'s oldest and most beloved temple. Walk through the iconic Kaminarimon Gate (giant red lantern) at golden hour. The temple glows at dusk, incense smoke curls upward, and cherry blossoms frame the five-story pagoda. This is your first Japan moment — take it in slowly.', dir:'🚶 3-min walk from hotel. Walk north through the hotel entrance toward the massive red lantern visible at the end of Nakamise shopping street.'},
+      {time:'6:10 PM', act:'🚶 Walk to Birthday Dinner', note:'Stroll west along Kokusai-dori. The contrast between ancient temples behind you and the city ahead is quintessentially Tokyo.', dir:'🚶 5-min walk west on Kokusai-dori. Imahan is on the right before the Asakusa-dori intersection — look for the traditional wooden facade with paper lanterns.'},
+      {time:'6:30 PM', act:'🎂 Birthday Dinner · Asakusa Imahan', note:'✅ CONFIRMED · Wagyu sukiyaki in a private tatami room — remove shoes at the entrance, step onto the elevated tatami floor, kneel (or use a backrest) at the low table. Your chef cooks thin-sliced wagyu in sweet soy broth; you dip each piece in raw egg. One of the most ceremonial dining experiences in Japan.', confirmed:true, restaurant:'imahan'},
+      {time:'8:15 PM', act:'🌸 Sumida River Birthday Walk', note:'Stroll east along the river with Skytree reflected in the water. Cherry blossoms lining the banks, lanterns glowing. The perfect ending to your birthday in Japan.', dir:'🚶 7-min walk east from Imahan toward Azuma Bridge and the Sumida River.'},
+      {time:'9:15 PM', act:'♨️ Return to Hotel · Onsen Bath', note:'Slip into the natural hot spring — the dark mineral-rich water is famous for jet lag recovery. Men and women bathe separately. Shower first at the washing stations before entering. Free ramen available at the hotel counter late night.'},
+    ],
+    pm_routine: null
+  },
+  {
+    id:'apr9', date:'April 9', dow:'Thursday', city:'tokyo',
+    title:'Ryogoku · Edo-Tokyo Museum · Akihabara',
+    theme:'Sumo heritage · Reopened museum · Pop-culture Tokyo',
+    hotel:'Onyado Nono Asakusa',
+    items:[
+      {time:'8:00 AM', act:'🍳 Breakfast + Morning Onsen', note:'Hotel buffet — miso soup, grilled fish, pickles, rice. The onsen reopens at 6 AM if you want an early soak before the day.'},
+      {time:'8:45 AM', act:'🚇 Train → Ryōgoku', note:'Leave now to arrive at museum opening time 9:30 AM — first weeks after reopening will be very crowded by 11 AM.', dir:'🚇 Walk 8 min to Asakusa Station → Toei Asakusa Line (red) → Ryōgoku Station (10 min, ¥280 on ICOCA). Exit A3. Walk 5 min south toward the green-roofed Kokugikan Arena.'},
+      {time:'9:10 AM', act:'🏟️ Kokugikan Sumo Arena + Free Museum', note:'Even if no tournament is on, the Sumo Museum inside is free and fascinating — champion belts, woodblock prints, historical photos dating to the 1600s. The arena itself is sacred: its roof is shaped like a Shinto shrine to honor sumo as a ritual offering to the gods.', dir:'🚶 3-min walk from Ryōgoku Station West Exit. The enormous green-roofed arena is unmissable.'},
+      {time:'9:30 AM', act:'🏛️ Edo-Tokyo Museum', note:'REOPENED March 31, 2026 after 4-year renovation — this is the best moment to visit in years. The museum recreates 17th-century Edo with astonishing scale models: merchant streets, fire watchtowers, Nihonbashi Bridge at 1:1 scale. You walk through Tokyo\'s history from fishing village to global megacity. Adults ¥800. Allow 2.5–3 hours.', highlight:true, dir:'🚶 3-min walk from Kokugikan. Cross the street south — the museum is the enormous silver building on stilts.'},
+      {time:'12:00 PM', act:'🍲 Lunch · Chanko Tomoe', note:'Chanko nabe is the protein-rich hot pot that sumo wrestlers eat daily. At Chanko Tomoe, you sit where the wrestlers sat. Chicken, vegetables, tofu in a rich dashi broth — deeply satisfying and completely authentic. Walk-in, arrive by 12:30 for best availability.', dir:'🚶 5-min walk from the museum toward the Kokugikan area. Look for the small signs near the arena.'},
+      {time:'1:00 PM', act:'🚇 JR Sōbu Line → Akihabara', note:'One quick stop to neon-lit electric city.', dir:'🚇 Ryōgoku Station → JR Sōbu Line (yellow) → Akihabara (1 stop, 5 min). Exit Electric Town Exit — you\'ll immediately smell the city change.'},
+      {time:'1:15 PM', act:'🎮 Akihabara Electric Town', note:'Once a postwar black market for radio parts, now the global capital of anime, gaming, and electronics. Yodobashi Camera towers 8 floors. Retro game shops sell Famicom cartridges. Maid cafés line the alleys. Whether you\'re buying or just absorbing, there\'s nowhere like it on earth.'},
+      {time:'4:30 PM', act:'🚇 JR Yamanote → Shinjuku', note:'', dir:'🚇 Akihabara → JR Yamanote Line (light green circular line) → Shinjuku (25 min). East Exit — you emerge into Tokyo\'s most overwhelming intersection.'},
+      {time:'5:00 PM', act:'🦖 Godzilla Head · Kabukichō Walk', note:'At Hotel Gracery Shinjuku (8F terrace), the 12-meter Godzilla head roars and breathes steam every 30 min from 10AM–10PM. Free to view from the street below. Then walk through Kabukichō — Tokyo\'s entertainment district, now largely cleaned up and fascinating to walk through.'},
+      {time:'6:45 PM', act:'🍢 Dinner · Yurakuchō Yakitori Alley', note:'One of Tokyo\'s great experiences — intimate lantern-lit stalls tucked under the elevated Yamanote Line tracks. Smoke, sizzling skewers, cold Sapporo, salarymen and tourists shoulder to shoulder. Arrive early for seats. No reservations.', dir:'🚇 Yamanote Line → Yurakuchō (2 stops, 5 min). Walk under the tracks on the west side — the alley is immediately visible.'},
+      {time:'9:00 PM', act:'🏠 Return → Asakusa · Onsen', note:'', dir:'🚇 Yurakuchō → JR Yamanote → Ueno → transfer Tokyo Metro Ginza Line (orange) → Asakusa (~35 min total).'},
+    ]
+  },
+  {
+    id:'apr10', date:'April 10', dow:'Friday', city:'tokyo',
+    title:'teamLab Borderless · Zōjō-ji · Tokyo Tower · Nakameguro',
+    theme:'Digital art immersion · Edo temple · Design Tokyo',
+    hotel:'Onyado Nono Asakusa',
+    items:[
+      {time:'7:30 AM', act:'☕ Breakfast · Early Start', note:'Light breakfast — you need to leave by 8:30 AM. teamLab tickets are time-entry; don\'t be late.'},
+      {time:'8:30 AM', act:'🚇 Travel → teamLab Borderless', note:'', dir:'🚇 Asakusa Station → Ginza Line (orange) → Toranomon Hills Station → transfer Hibiya Line (silver) → Kamiyacho Station (total ~30 min). From Kamiyacho Exit 5: walk 4 min to Azabudai Hills Mori JP Tower, B2 level.'},
+      {time:'9:30 AM', act:'🎨 teamLab Borderless', note:'✅ CONFIRMED TICKETS · The world\'s most visited digital art museum. Projections bleed across walls, floors, and ceilings with no boundaries. The Resonating Lamps room, the Forest of Lamps, the Athletic Forest. Wear comfortable clothes — no skirts for the Athletic Forest. No tripods or selfie sticks. Download the teamLab app for interactive features. Allow 2.5 hours minimum.', confirmed:true, dir:'📍 B2F Mori JP Tower, 1-2-4 Azabudai, Minato-ku. Follow the blue teamLab signs from Kamiyacho Exit 5.'},
+      {time:'11:30 AM', act:'🚶 Walk → Zōjō-ji Temple', note:'A 15-min walk south through the landscaped Azabudai Hills gardens rewards you with one of Tokyo\'s great views: Tokyo Tower rising dramatically behind the ancient temple gate. Founded in 1393, this was the Tokugawa shogun family\'s personal temple — six shoguns are buried here.', dir:'🚶 Walk south through Shiba Park from teamLab (~15 min). The temple appears suddenly with the tower behind it.'},
+      {time:'11:50 AM', act:'⛩️ Zōjō-ji Temple', note:'The 1622 Sangedatsumon Gate is original — one of the oldest wooden structures in Tokyo. Behind the temple, rows of stone Jizō statues wear red bibs and knitted caps — they represent children lost in miscarriage and are placed here by grieving parents. Quietly moving.'},
+      {time:'12:30 PM', act:'🍱 Lunch near Tokyo Tower', note:'Tofuya Ukai: an extraordinary tofu kaiseki in a restored 300-year-old sake warehouse with a Japanese garden (reserve in advance). Or simpler options in Shiba Park café if walking in.', dir:'🚶 Tofuya Ukai is 7-min walk south of Zōjō-ji, toward Tokyo Tower base.'},
+      {time:'1:30 PM', act:'🗼 Tokyo Tower Observation Decks', note:'Built in 1958, inspired by the Eiffel Tower but painted in international orange. Main Deck at 150m (¥1,200) gives sweeping bay views. Top Deck at 250m (¥3,000) on a clear day shows Mt. Fuji. The tower glows orange at night — photograph it from Zōjō-ji for the classic shot.'},
+      {time:'3:15 PM', act:'🚇 Travel → Nakameguro', note:'', dir:'🚇 Onarimon Station (Mita Line, blue) → Hibiya (silver) → Nakameguro Station Exit 1 (~25 min total).'},
+      {time:'3:50 PM', act:'🌸 Meguro River Canal Walk', note:'Tokyo\'s most beloved hanami (cherry blossom viewing) route. Even without cherry blossoms, the tree-lined canal with independent cafés, vintage shops, and restaurants is Tokyo at its most stylish. % Arabica coffee here is one of Tokyo\'s best.'},
+      {time:'6:00 PM', act:'🚇 Return → Asakusa', note:'Head back after a full day.', dir:'🚇 Nakameguro → Tokyu Toyoko Line → Shibuya → Ginza Line (orange) → Asakusa (~30 min). 💳 Tap ICOCA.'},
+      {time:'7:00 PM', act:'🍜 Dinner · Tempura Daikokuya', note:'Since 1887 — most iconic tempura in Asakusa. Darker richer batter with sesame oil. Order the tendon (tempura rice bowl). Walk-in, arrive before 7 PM.', dir:'🚶 On or just off Nakamise Street — 5-min walk from hotel.'},
+      {time:'9:00 PM', act:'♨️ Evening Onsen', note:'Last soak before Nikko tomorrow. Dark mineral kuryu water after a full day is extraordinary. Onsen open until 9:00 AM.'},
+      {time:'7:00 PM', act:'🍜 Dinner near Hotel', note:'Tempura Daikokuya (since 1887, iconic Asakusa tempura, walk-in, arrive before 7 PM). Or Asakusa Yoshikami for yoshoku. Both 5-min walk from hotel.', dir:'🚶 On or just off Nakamise Street.'},
+      {time:'9:00 PM', act:'♨️ Evening Onsen', note:'Last soak before Nikko tomorrow. Onsen open until 9:00 AM.'},    ]
+  },
+  {
+    id:'apr11', date:'April 11', dow:'Saturday', city:'tokyo',
+    title:'Nikkō Day Trip 🚆',
+    theme:'UNESCO mountain shrines · Cedar forests · Imperial elegance',
+    hotel:'Onyado Nono Asakusa',
+    items:[
+      {time:'5:45 AM', act:'⏰ Wake Up · Quick Breakfast', note:'Convenience store or hotel early option. Pack water and snacks — Nikkō is mountain country.'},
+      {time:'6:15 AM', act:'🚶 Walk to Tobu Asakusa Station', note:'', dir:'🚶 5-min walk east from hotel. The station is inside the Matsuya Asakusa department store building on the Azumabashi Bridge end of Kaminarimon-dori. Entrance on ground floor of the building.'},
+      {time:'6:30 AM', act:'🚆 Depart · Liberty Kegon No.1', note:'✅ BOOKED · Reserved seats. The Liberty Kegon is a luxury limited express — wide seats, large windows for mountain scenery. Show booking QR at platform gate.', confirmed:true, dir:'🚆 Platform 1, Tobu Asakusa Station. Liberty Kegon No.1, direction Tobu Nikkō. Departs 6:30 AM sharp. Arrives 8:25 AM.'},
+      {time:'8:25 AM', act:'🏔️ Arrive Tobu-Nikkō Station', note:'Pick up an English map at the Tourist Information Center (east exit). Buy the World Heritage Loop Bus 1-Day Pass (¥3,000) at the bus stop outside — unlimited rides all day, worth every yen.', dir:'🚌 Board World Heritage Loop Bus from outside the station → "Shinkyō" stop (~7 min). Buses leave every 30 min.'},
+      {time:'9:20 AM', act:'🌉 Shinkyō Sacred Bridge', note:'The vermilion-lacquered arch spanning the Daiya River marks your crossing from the secular world into Nikkō\'s sacred mountains — a concept 1,400 years old. Entry ¥300. The contrast of red lacquer against the cedar forest and river below is breathtaking.'},
+      {time:'9:45 AM', act:'⛩️ UNESCO Shrine Complex Walk', note:'Three interconnected sacred sites in ancient cedar forest: Rinnō-ji (8–17:00) with its three golden Buddhas; Tōshōgū (9–17:00), the breathtaking mausoleum of Tokugawa Ieyasu — covered in gold leaf, carved animals, the famous Sleeping Cat and the three monkeys (see/hear/speak no evil); Futarasan Shrine (8–17:00), the oldest and most spiritually powerful. Allow 2+ hours. Comfortable shoes essential — stone steps throughout.', highlight:true, dir:'🚶 Short forest walk uphill from Shinkyō following signs. Sites are connected by stone paths through cedar groves.'},
+      {time:'12:05 PM', act:'🪨 Kanmangafuchi Abyss', note:'Nikkō\'s greatest hidden gem. A river gorge where ~70 stone Jizō statues stand in a single file, each wearing a red knitted cap — placed here by parents for protection of children. The atmosphere is serene and slightly otherworldly. Almost no tourists come here. Don\'t skip it.', highlight:true, dir:'🚶 Follow signs downhill ~1km from the Futarasan shrine area along the Daiya River path. ~15 min walk.'},
+      {time:'1:00 PM', act:'🏛️ Tamozawa Imperial Villa', note:'¥600 entry. Open 9:00–16:30. Built 1899 for Prince Yoshihito (later Emperor Taishō). 106 rooms fusing samurai architecture with Meiji modernism. The garden is immaculate.', dir:'🚶 10-min walk east from the Abyss through quiet residential lanes. Small signs point the way.'},
+      {time:'2:00 PM', act:'🍵 Lunch · Meiji no Yakata', note:'Yuba (tofu skin) cuisine — Nikkō\'s local specialty — in a beautiful Meiji-era Western consulate building. Lunch 11:30–14:30. English menu. Reserve a window seat for garden views.', dir:'🚶 5-min walk toward the main street.'},
+      {time:'3:15 PM', act:'🛍️ Town Stroll + Souvenir', note:'Cedar crafts, daruma dolls, yuba sweets. Head toward the station by 3:45 PM.'},
+      {time:'4:20 PM', act:'🚆 Return · Liberty Kegon No.42', note:'✅ BOOKED · Reserved seats Car 2, 10C & 10D. Show QR at platform gate.', confirmed:true, dir:'🚆 Tobu Nikkō Station Platform 1. Liberty Kegon No.42. Departs 16:20 sharp. Arrives Tobu Asakusa 18:15.'},
+      {time:'6:15 PM', act:'🏠 Back in Asakusa · Last Tokyo Evening', note:'Light dinner near hotel — Tempura Daikokuya is steps away and iconic. Then final soak in the onsen.'},
+    ],
+    pm_routine: {text:'🌙 Tonight: Pack bags for Kanazawa tomorrow. Large bags will go via Takkyubin to Kyoto on Apr 13 night — you don\'t need to arrange that yet. Double check JR Pass is activated. Plan to leave hotel by 7:30 AM tomorrow for Tokyo Station.'}
+  },
+  {
+    id:'apr12', date:'April 12', dow:'Sunday', city:'kanazawa',
+    title:'Tokyo → Kanazawa · Arrival Afternoon',
+    theme:'Shinkansen through the Alps · Castle garden · Station area',
+    hotel:'Hyatt Centric Kanazawa',
+    items:[
+      {time:'7:00 AM', act:'☕ Breakfast + Checkout', note:'Early breakfast and checkout. Pack all bags — you\'re leaving Tokyo for good.'},
+      {time:'7:30 AM', act:'🚇 Asakusa → Tokyo Station', note:'', dir:'🚇 Asakusa Station → Tokyo Metro Ginza Line (orange) → Kanda (8 stops, ~15 min). Underground walk ~8 min to Tokyo Station Yaesu North Entrance. Total ~25 min. Allow extra time — Tokyo Station is enormous.'},
+      {time:'8:00 AM', act:'🚄 Reserve Shinkansen Seats', note:'Go to the JR Midori no Madoguchi (green window) ticket office. Show your Individual ticket. Request: "Hokuriku Shinkansen to Kanazawa, next available Kagayaki or Hakutaka." Kagayaki is fastest (non-stop), Hakutaka makes stops. Both are covered by Individual ticket.', dir:'📍 JR Ticket Office inside Tokyo Station, Marunouchi South exit area. Look for green 緑の窓口 signs.'},
+      {time:'8:20 AM', act:'🚄 Hokuriku Shinkansen → Kanazawa', note:'~2h40 min. Buy an ekiben (station bento) from the platform shops before boarding — the Kanazawa crab version is exceptional. Watch for the dramatic Japanese Alps and coastal plains of the Sea of Japan as you approach Kanazawa.', dir:'🚄 Platform as shown on your reservation. Direction: Kanazawa. Shinkansen runs on time to the minute — don\'t be late.'},
+      {time:'11:05 AM', act:'🏨 Arrive Kanazawa Station · Bag Drop', note:'Kanazawa Station is itself worth seeing — the giant Tsuzumi-mon drum gate at the East Exit is an architectural marvel. Walk 5 min west to the Hyatt. Drop bags if room not ready.', dir:'🚶 Kanazawa Station West Exit → walk straight ahead ~5 min. Hyatt is visible from the station.'},
+      {time:'11:45 AM', act:'🐟 Lunch · Morimori Sushi · Omicho Market', note:'Omicho has been Kanazawa\'s covered market since the 1690s — a maze of stalls selling Sea of Japan seafood that will make you forget everything you know about fish. Morimori Sushi is the most famous counter inside. The "dancing squid bowl" is real — fresh squid sashimi that moves. Arrive by 11:45 or queue.', dir:'🚌 Right Loop Bus (red) from Kanazawa Station East Gate Stop #7 → Stop RL3 "Musashigatsuji/Omicho Ichiba" (~5 min, ¥220). Buy One Day Pass ¥800 at station tourist info — unlimited rides all day on Loop Bus. 💳 Or tap ICOCA for single rides.'},
+      {time:'1:00 PM', act:'🏯 Kanazawa Castle Park + Kenrokuen Garden', note:'Kenrokuen (¥320, open 8–18:00) is one of Japan\'s Three Great Gardens — designed over 200 years by the Maeda clan lords who ruled here. The Kotoji stone lantern standing in the pond is the most photographed object in Kanazawa. The adjacent castle park is free; walk across Ishikawa Bridge for the moat reflection shot.', highlight:true, dir:'🚶 10-min walk south from Omicho market through the Otemon Gate area. ✨ Kenrokuen Garden and 21st Century Museum are only 2-min walk apart — same block. No bus needed between them.'},
+      {time:'3:30 PM', act:'🎨 21st Century Museum of Contemporary Art', note:'Open Tue–Sun 10:00–18:00. The museum is a perfect glass circle — architectural art itself. Leandro Erlich's Swimming Pool lets you stand under water while others walk above you on the glass surface. Gallery ticket ¥450. Free public zones without ticket. One of the most talked-about contemporary art experiences in Japan.', dir:'🚶 5-min walk from Kenrokuen exit. The circular glass building is visible from the garden path.'},
+      {time:'5:00 PM', act:'🏨 Check-in · Hyatt Centric Kanazawa', note:'Rest and freshen up. Ask the concierge to arrange your Ninja Temple visit for tomorrow morning (they need to call ahead in Japanese). Rooftop bar opens at 5 PM — Tsuzumi-mon Gate view at sunset.'},
+      {time:'7:00 PM', act:'🍽️ Dinner · near Kanazawa Station', note:'Fuwari for modern Kaga kaiseki, Kourin for casual sushi, or Hyatt restaurant FIVE for grill and sake.', dir:'🚶 All options within 5-min walk of hotel.'},
+      {time:'8:30 PM', act:'🏨 Rest · Early Night', note:'Full day tomorrow — Nagamachi, Ninja Temple, Higashi Chaya, Sushi Kinari. Get to bed early.'},
+    ]
+  },
+  {
+    id:'apr13', date:'April 13', dow:'Monday', city:'kanazawa',
+    title:'Full Day Kanazawa · Samurai · Ninja · Sushi',
+    theme:'Warrior history · Hidden temple · Geisha quarter · Sushi Kinari dinner',
+    hotel:'Hyatt Centric Kanazawa',
+    items:[
+      {time:'8:00 AM', act:'🍳 Breakfast · Hyatt Centric', note:'Views of Tsuzumi-mon Gate. Prepare daypack. Today is CASH HEAVY — carry ¥10,000 including ¥1,000 in small bills for Ninja Temple (cash only, no exceptions).'},
+      {time:'9:00 AM', act:'⚔️ Nagamachi Samurai District', note:'The best-preserved samurai residential quarter in Japan. Maeda clan retainers lived behind these earthen walls and through these wooden gates for 300 years. Nomura Samurai House (¥550) is the highlight — the garden was designed to be viewed from the tatami room; sit there quietly for 10 minutes.', dir:'🚶 10-min walk south from hotel through the Korinbo area. OR Loop Bus Stop RL9 "Katamachi."'},
+      {time:'10:15 AM', act:'⛩️ Oyama Shrine', note:'Founded 1599. The gate is unique in Japan — Dutch stained glass windows in a Shinto shrine gate, a physical symbol of Kanazawa\'s openness to Western trade while remaining spiritually Japanese.', dir:'🚶 12-min walk north from Nagamachi.'},
+      {time:'10:45 AM', act:'🕵️ Myōryū-ji "Ninja Temple"', note:'⚠️ RESERVATION CONFIRMED via Hyatt concierge — confirm timing with concierge this morning. Despite the nickname, this was never a ninja temple. Built in 1643 as a Maeda clan defense fortress disguised as a Buddhist temple — 23 rooms across 7 floors, hidden staircases, trapdoors, escape tunnels, false wells. Tour ~40 min. ¥1,000 CASH ONLY. English pamphlet at entrance.', warning:true, dir:'🚶 15-min walk from Oyama Shrine. OR Loop Bus Left Loop (blue) → Stop LL5 "Hirokoji."'},
+      {time:'11:45 AM', act:'🌸 Kenrokuen Garden · Photo Session', note:'Best light 11AM–1PM. Second visit but with purpose — yesterday was overcast arrival, today get your photos. Walk via Ishikawa Bridge to Castle Park. The Hanami-bashi bridge reflection shot is the one you want.', dir:'🚕 Taxi or Loop Bus (~10-15 min) → Kenrokuen-shita Stop.'},
+      {time:'1:15 PM', act:'🍱 Lunch near Kenrokuen', note:'Hanaori Teahouse inside Kenrokuen for Kaga soba and wagashi in a garden setting. Or Kaiseki Sakana Kojima nearby for multi-course local seafood.'},
+      {time:'2:30 PM', act:'🏮 Higashi Chaya District', note:'Kanazawa\'s geisha quarter, preserved from the Edo period. The ochaya (teahouses) on the main cobblestone street are where geisha entertained wealthy merchants for centuries — some still do. Kaikaro Teahouse lets you inside the real thing (¥700). Saryo Shōgetsu for a matcha break. Gold-leaf ice cream (¥950) is the obligatory Kanazawa food photo.', highlight:true, dir:'🚌 Taxi or Loop Bus → Stop RL3 "Hashiba-cho" (~10 min).'},
+      {time:'4:00 PM', act:'🪙 Gold-Leaf Workshop · Sakuda Shop', note:'Kanazawa produces 99% of Japan\'s gold leaf. At Sakuda, you can decorate chopsticks or lacquerware with real gold leaf for ¥700–1,000. Handle with extreme care — even your breath scatters the leaf.', dir:'🚶 3-min walk behind Higashi Chaya main street.'},
+      {time:'5:00 PM', act:'🏨 Return to Hotel · Change for Dinner', note:'Sushi Kinari is smart casual — no need for formal wear but dress neatly.', dir:'🚌 Loop Bus or taxi (~10 min).'},
+      {time:'7:00 PM', act:'🍣 Dinner · Sushi Kinari', note:'✅ CONFIRMED 7:00 PM · One of Kanazawa\'s finest sushi counters. The chef ages his fish in the Hokuriku tradition — time deepens the flavor. Nodoguro (blackthroat sea perch) is Kanazawa\'s prized local fish; the hand roll is the highlight of the course. ¥22,000/person. Drinks and service charge extra.', confirmed:true, restaurant:'sushikinari', dir:'🚕 Taxi from hotel ~10 min (¥1,200). Show driver address: 彦三町1-17-8. Book via GO app or ask Hyatt concierge. Counter seats — you\'ll watch every piece of fish prepared in front of you.'},
+      {time:'8:30 PM', act:'🏮 Higashi Chaya · Evening Stroll', note:'Walk the main cobblestone street after dark — lanterns lit, ochaya teahouses glowing, no tourists. Completely different from the afternoon visit.', dir:'🚕 Taxi from Sushi Kinari to Higashi Chaya ~¥800 · then taxi back to Hyatt ~¥800.'},
+      {time:'9:15 PM', act:'🏨 Return to Hotel · Rest', note:'Last Kanazawa evening — early checkout tomorrow for Thunderbird to Kyoto.'},
+    ],
+    pm_routine: {text:'🌙 Tonight — IMPORTANT: Ask Hyatt Centric front desk to arrange Takkyubin luggage forwarding to Fauchon L\'Hôtel Kyoto. Drop bags tonight or by 8:00 AM tomorrow morning. Cost ¥2,000–2,500 per bag. Give them the Fauchon address: 406 Namba-cho, Matsubara sagaru Kawaramachi-dori, Shimogyo-ku, Kyoto 600-8027. Travel tomorrow with small day bag only — pure freedom on the Thunderbird.'}
+  },
+  {
+    id:'apr14', date:'April 14', dow:'Tuesday', city:'kyoto',
+    title:'Kanazawa → Kyoto · Arrival · First Kyoto Evening',
+    theme:'Thunderbird transit · Kiyomizudera · Sannenzaka · Gion at dusk',
+    hotel:"Fauchon L'Hôtel Kyoto",
+    items:[
+      {time:'7:30 AM', act:'☕ Breakfast + Checkout', note:'Last Kanazawa breakfast. Bags already sent via Takkyubin (arrives at Fauchon tomorrow). Travel today with day bag only.'},
+      {time:'8:15 AM', act:'🚶 Walk to Kanazawa Station', note:'', dir:'🚶 5-min walk from Hyatt to Kanazawa Station East Exit. Reserve Thunderbird seats at Midori no Madoguchi (green window) ticket office before departure. Show Individual ticket.'},
+      {time:'8:30 AM', act:'🚄 JR Thunderbird → Kyoto', note:'~2h10 min. Individual ticket. Beautiful views of Lake Biwa appear as you approach Kyoto — Japan\'s largest lake, sacred in Japanese culture. Arrive Kyoto Station 10:45 AM.', dir:'🚄 Platform at Kanazawa Station as shown on reservation. Direction: Osaka/Kyoto. Thunderbird runs on time.'},
+      {time:'10:45 AM', act:'🚉 Arrive Kyoto Station → Fauchon', note:'Bags arrive tomorrow via Takkyubin. Check in or leave bags at front desk.', dir:'🚕 Taxi from Kyoto Station Central Gate → Fauchon L\'Hôtel (~10 min, ¥1,200–1,500). Show driver: 京都府京都市下京区河原町通松原下る難波町406. OR walk 6 min from Kiyomizu-Gojo Station on the Keihan Line (teal).'},
+      {time:'11:30 AM', act:'🍱 Lunch near Fauchon', note:'Honke Owariya: Kyoto\'s oldest soba restaurant, operating since 1465. The buckwheat noodles are served cold in the Kyoto style. Walk-in, 5-min wait typical. Or Fauchon Le Café for elegant lunch.', dir:'🚶 Honke Owariya is 10-min walk north of hotel on Kawaramachi-dori.'},
+      {time:'12:30 PM', act:'⛩️ Kiyomizu-dera Temple', note:'Founded 780 AD on a sacred mountain spring. The UNESCO-listed wooden veranda extends 13m over the hillside on 139 pillars — built without a single nail. The views of Kyoto\'s temple rooftops are defining. At Otowa Waterfall below, three streams represent wisdom, longevity, and love — drink from only one (drinking all three is considered greedy!). ¥400 entry.', highlight:true, dir:'🚌 Bus #207 from Shijo-Kawaramachi (5-min walk from hotel) → Kiyomizu-michi stop (~10 min). OR taxi ~10 min / ¥1,200.'},
+      {time:'2:00 PM', act:'🏘️ Sannenzaka & Ninenzaka Lanes', note:'The most perfectly preserved historic lanes in Japan. Machiya wooden townhouses line these flagstone slopes, unchanged since the Edo period. Browse Yatsuhashi cinnamon cookies (Kyoto\'s iconic souvenir), matcha soft serve, small pottery shops. Walk slowly — every corner is a photograph.', dir:'🚶 Descend the stone steps directly south from Kiyomizudera. The lane begins immediately below the temple gate.'},
+      {time:'3:30 PM', act:'🌇 Gion District · First Evening Walk', note:'Walk north from Ninenzaka toward the Shirakawa Canal — the narrow waterway lined with weeping willows and preserved machiya is Kyoto\'s most romantic spot. Hanamikoji Street is where geisha (called geiko in Kyoto) still walk to evening appointments between 5–6 PM. Quiet observation only — no stopping them for photos.', dir:'🚶 15-min walk north from Ninenzaka through Ishibe-koji stone alley (lantern-lit, extraordinary) → Gion.'},
+      {time:'5:30 PM', act:'🏨 Check-in · Fauchon L\'Hôtel Kyoto', note:'Welcome gift, champagne at reception, in-room Gourmet Bar stocked with Fauchon macarons and treats (complimentary). The hotel is blush pink and gold — Paris meets Kyoto in the most unapologetically luxurious way. Enjoy it.'},
+      {time:'7:00 PM', act:'🍽️ Dinner · Pontocho or Gion area', note:'Pontocho is a narrow lantern-lit alley along the Kamo River — 500m of the best restaurant concentration in Japan. Choose any with a noren (fabric divider) in the doorway. Kawayuka riverside terrace platforms extend over the water in spring.', dir:'🚶 10-min walk north from Fauchon along Kawaramachi-dori to Shijo crossing, then west to Pontocho alley.'},
+      {time:'9:00 PM', act:'🏨 Return · Concierge Request', note:'Ask concierge tonight: (1) Book kawayuka riverside dinner Apr 17, 7:30 PM, 2 people · (2) Reserve Fauchon Afternoon Tea Apr 17 — ¥7,000/person, $100 Amex credit covers it · (3) Confirm Amex FHR benefits: daily breakfast, $100 F&B credit, room upgrade.'},
+    ],
+    pm_routine: {text:'🌙 Tonight — ask Fauchon concierge to recommend and book a kawayuka riverside terrace restaurant in Pontocho for April 17 at 7:30 PM, 2 people. Kawayuka is seasonal (April–May only) and fills up fast — concierge can call in Japanese and confirm the best spot for that week. Also confirm bags arrived via Takkyubin from Kanazawa.'}
+  },
+  {
+    id:'apr15', date:'April 15', dow:'Wednesday', city:'kyoto',
+    title:'Nara Day Trip · Great Buddha · Sacred Deer',
+    theme:'UNESCO Tōdai-ji · Ancient capital · Fawning season deer',
+    hotel:"Fauchon L'Hôtel Kyoto",
+    items:[
+      {time:'7:00 AM', act:'🍳 Breakfast + Early Departure', note:'Early arrival in Nara means empty temples and calm deer. Tour buses arrive after 10 AM. Eat at Fauchon or grab from the patisserie counter.'},
+      {time:'7:45 AM', act:'🚆 Travel → Nara', note:'', dir:'🚆 Option A (Kintetsu — closer to sights): Walk 10 min to Kyoto Station → Kintetsu Kyoto Line Limited Express → Kintetsu Nara Station (~35 min, ¥760). Option B (JR — cheaper): Kyoto Station → JR Nara Line Rapid → JR Nara Station (~45 min, JR Pass). Kintetsu recommended — station is closer to Todai-ji.'},
+      {time:'8:30 AM', act:'🦌 Nara Park Walk to Tōdai-ji', note:'⚠️ April = fawning season. Female deer protecting fawns may be assertive. Keep all food sealed — deer will bite through bags. They bow for "shika senbei" deer crackers (¥200 from vendors) — genuinely delightful.', dir:'🚶 15-min walk east from Kintetsu Nara Station through Nara Park. Follow the deer — they know the way.'},
+      {time:'8:50 AM', act:'🏛️ Tōdai-ji · Great Buddha Hall', note:'Opens 8:00 AM. The Great Buddha Hall is the largest wooden building on earth. Inside, the 15-meter bronze Vairocana Buddha (cast 752 AD) sits in quiet contemplation — one of the great artistic achievements of humanity. The wooden pillar with a hole the size of the Buddha\'s nostril: crawling through is said to bring enlightenment. Adults ¥600.', highlight:true},
+      {time:'9:45 AM', act:'⛩️ Kasuga Taisha Shrine', note:'3,000 bronze and stone lanterns line the forest path to this vermilion shrine, founded 768 AD. In February and August they\'re all lit at once — a famous spectacle. In April, wisteria blooms purple around the outer corridors.', dir:'🚶 15-min walk east from Tōdai-ji through the deer park.'},
+      {time:'11:00 AM', act:'🏯 Kōfuku-ji + Five-Story Pagoda', note:'The five-story pagoda reflected in Sarusawa Pond is Nara\'s iconic image. The pagoda was originally built in 730 AD (rebuilt multiple times). Free exterior; museum ¥700.', dir:'🚶 20-min walk west back toward the station.'},
+      {time:'12:00 PM', act:'🍱 Lunch · Naramachi · Hiraso', note:'Kakinoha-zushi — salmon or mackerel pressed sushi wrapped in persimmon leaf — is Nara\'s defining food. Hiraso has been making it since 1891. Simple, deeply traditional, unforgettable. Walk-in.', dir:'🚶 Naramachi is 10-min walk south of Kōfuku-ji.'},
+      {time:'1:15 PM', act:'🏘️ Naramachi Historic Townhouses', note:'The merchant district of old Nara — preserved machiya townhouses, quiet lanes, small craft shops. Almost entirely untourisited compared to the temple area.'},
+      {time:'2:00 PM', act:'🌿 Yoshiki-en Garden', note:'Free entry for foreign visitors with passport! Show it at the gate. A beautiful strolling garden with tea house, iris garden, and moss garden. Normally ¥250 — your free pass is a genuine gift from Nara city to international visitors.', dir:'🚶 5-min walk north from Naramachi, back toward Tōdai-ji.'},
+      {time:'3:30 PM', act:'🚆 Return → Kyoto', note:'', dir:'🚆 Kintetsu Nara → Kyoto Station (~35 min). Back at Fauchon by ~5:00 PM.'},
+      {time:'5:30 PM', act:'🌆 Fauchon Rooftop · Champagne Hour', note:'Le Bar FAUCHON on the 10th floor. Watch the sun set over the Higashiyama mountains with a glass of Fauchon champagne. You\'ve earned it.'},
+      {time:'7:30 PM', act:'🍽️ Dinner · Gion or Pontocho', note:'Second Kyoto evening — explore a different section of Pontocho, or venture into Gion\'s side streets for kappo-style restaurants.'},
+    ]
+  },
+  {
+    id:'apr16', date:'April 16', dow:'Thursday', city:'kyoto',
+    title:'Sagano Romantic Train · Arashiyama · Northwest Kyoto',
+    theme:'River gorge · Zen temples · Golden Pavilion · Hidden geisha district',
+    hotel:"Fauchon L'Hôtel Kyoto",
+    items:[
+      {time:'7:15 AM', act:'☕ Breakfast + Early Departure', note:'Must leave by 7:45 AM to reach Kameoka for 9:30 AM train. Light breakfast.'},
+      {time:'7:45 AM', act:'🚆 Travel → Kameoka Station', note:'', dir:'🚆 Walk 10 min to Kyoto Station → JR Sagano Line → Kameoka Station (~30 min, ¥420). Platform 31-34 at Kyoto Station. Kameoka is one stop past Saga-Arashiyama — don\'t get off early.'},
+      {time:'9:30 AM', act:'🚂 Sagano Romantic Train · Kameoka → Arashiyama', note:'✅ BOOKED · Car 4, Seats 13C & 13D · Conf: ars-20260322015619-130488. A vintage open-air train that runs through the Hozu River gorge — towering bamboo walls, dramatic rock faces, emerald water below. One of the great short train journeys in Japan. 7 km, ~25 min. Stay seated and look out both sides.', confirmed:true, highlight:true, dir:'📍 Sagano Torokko Kameoka Station (嵯峨野トロッコ亀岡駅). 5-min walk from JR Kameoka Station — follow the yellow signs or ask station staff.'},
+      {time:'10:05 AM', act:'🌳 Arrive Arashiyama · Togetsukyō Bridge', note:'The Sagano train deposits you at Torokko Arashiyama Station, a 5-min walk from the bridge. Cross Togetsukyō at mid-morning — the bridge over the Ōi River with forested mountains behind is the defining Arashiyama image.', dir:'🚶 Walk 5 min from Torokko Arashiyama Station to the bridge.'},
+      {time:'10:20 AM', act:'🪷 Tenryū-ji Temple (UNESCO)', note:'Garden ¥500, Temple Halls ¥300. Opens 8:30 AM. The Sōgenchi Pond Garden is considered one of the finest dry landscape gardens in Japan — designed by the legendary monk Musō Soseki in 1339. The garden frames Mt. Arashiyama as a borrowed view (shakkei). Walk slowly around the pond.', dir:'🚶 10-min walk north from Togetsukyō Bridge following the main street.'},
+      {time:'11:20 AM', act:'🏡 Ōkōchi Sansō Villa', note:'¥1,000 includes matcha and wagashi sweet in the teahouse. Built by the samurai film actor Denjiro Okochi over 30 years as his personal Kyoto retreat. The views of Kyoto city and the Hozu Valley from the hilltop garden are among the best in the region. Almost no queues — most tourists skip it.', highlight:true, dir:'🚶 7-8 min walk uphill from Tenryuji\'s north gate, through the end of the bamboo path.'},
+      {time:'12:30 PM', act:'🍱 Lunch · Arashiyama', note:'% Arabica Arashiyama: opens 8 AM, right at Togetsukyō Bridge — best coffee in Arashiyama with river views (coffee + light food). Or Shigetsu inside Tenryuji for Zen shōjin vegetarian cuisine (reserve directly, ¥3,500–5,000).', dir:'☕ % Arabica is at the bridge end on the river side — bright white minimalist building, hard to miss.'},
+      {time:'1:30 PM', act:'🚕 Taxi → Kinkaku-ji (Golden Pavilion)', note:'Leave Arashiyama now to avoid afternoon crowds at Kinkaku-ji.', dir:'🚕 Taxi from Arashiyama ~15 min (¥2,000). OR Bus 11 from Arashiyama stop → Kinkaku-ji-michi (~25 min).'},
+      {time:'1:50 PM', act:'✨ Kinkaku-ji · Golden Pavilion', note:'¥500 entry. Open 9:00–17:00. Three floors, each in a different architectural style — shinden (aristocratic), buke (samurai), and zen. Covered in real gold leaf. The reflection in Kyoko-chi Mirror Pond is the image. Mid-afternoon light hits the gold at its best angle. Walk the path clockwise — don\'t rush.', highlight:true},
+      {time:'2:45 PM', act:'🪶 Ryōan-ji · Zen Rock Garden', note:'¥600 entry. Open 8:00–17:00. 15 stones arranged in white gravel — the most studied garden in the world. No one has ever agreed on what it means. That\'s the point. Sit on the wooden platform and simply look. Don\'t try to understand it.', dir:'🚌 Bus 59 (~10 min) OR walk 20 min through quiet residential streets.'},
+      {time:'3:45 PM', act:'🎐 Kamishichiken · Hidden Geisha District', note:'The oldest and most overlooked of Kyoto\'s five geisha districts. No tour groups come here. The teahouses on Imadegawa-dori look exactly as they did 200 years ago. In the evening, geiko (Kyoto\'s geisha) from this district entertain at Kitano Tenmangū shrine events.', highlight:true, dir:'🚕 Taxi ~10 min from Ryōan-ji (~¥1,600). OR walk 20 min east through Kitano residential streets.'},
+      {time:'5:30 PM', act:'🍽️ Dinner · Kamishichiken area', note:'Yoshimura Tempura near Kitano Tenmangū: refined, quiet, excellent. Or Kaiseki Kichisen Imadegawa if booked in advance.', dir:'🚕 Return to Fauchon: taxi ~20 min (~¥2,000). OR bus to Shijo-Kawaramachi then walk.'},
+    ]
+  },
+  {
+    id:'apr17', date:'April 17', dow:'Friday', city:'kyoto',
+    title:'Uji Day Trip · Byōdō-in · Ancient Tea · Gion Last Night',
+    theme:'UNESCO Phoenix Hall · Japan\'s oldest tea · Final Kyoto evening',
+    hotel:"Fauchon L'Hôtel Kyoto",
+    items:[
+      {time:'7:30 AM', act:'🍳 Breakfast · Last Full Kyoto Day', note:'Savor the Fauchon breakfast — this is your last morning here. Enjoy the patisserie counter downstairs.'},
+      {time:'8:10 AM', act:'🚇 Travel → Uji', note:'', dir:'🚇 Walk 3 min to Kiyomizu-Gojo Station (Keihan Line, teal) → Chushojima → transfer Uji Line → Uji Station (~45 min total, ¥440 on ICOCA).'},
+      {time:'8:55 AM', act:'🌉 Uji Bridge + Riverside', note:'Japan\'s oldest bridge (built 646 AD, rebuilt many times). The Murasaki Shikibu statue on the riverbank honors the woman who wrote "The Tale of Genji" here in the 11th century — the world\'s first novel.'},
+      {time:'9:15 AM', act:'🏛️ Byōdō-in Temple · Phoenix Hall', note:'⚠️ NO ADVANCE BOOKING POSSIBLE — timed tickets sold only at the gate from 9:00 AM. Go STRAIGHT to the reception counter the moment you arrive. ¥300 garden entry + ¥600 timed Phoenix Hall entry. Hall slots hold 50 people for 20 minutes; popular Friday mornings can mean 45–90 min wait. The wait is worth it. Built 1053 AD, the Phoenix Hall appears to float on its reflecting pond — it\'s on the ¥10 coin.', warning:true, highlight:true, dir:'🚶 10-min walk southwest from Uji Station. Follow the green temple signs.'},
+      {time:'10:30 AM', act:'🍵 Tsuen Tea Shop', note:'Japan\'s oldest tea shop, established 1160 AD (not a typo). On the riverbank next to the bridge. Buy Uji matcha here — the terraced hills of Uji produce Japan\'s finest, most prized green tea.', dir:'🚶 2-min walk from Byōdō-in back toward the bridge.'},
+      {time:'11:00 AM', act:'⛩️ Ujigami Shrine (UNESCO)', note:'Japan\'s oldest surviving shrine building, dating to the late 10th century. Almost never crowded. Free entry. The contrast between this austere ancient timber and the ornate Byōdō-in you just visited is striking.', dir:'🚶 Cross the river on the small Asagiri Bridge, 5-min walk east.'},
+      {time:'12:00 PM', act:'🍵 Lunch + Matcha · Nakamura Tokichi', note:'The most famous matcha parfait in Japan — layers of matcha jelly, ice cream, azuki beans, and mochi in a tall glass. Their matcha soba set is equally excellent. Walk-in. Arrive early — line forms by 11:30 AM for noon opening.', dir:'🚶 5-min walk from Ujigami Shrine back toward the station area. Look for the traditional wooden building with a queue.'},
+      {time:'1:15 PM', act:'🚶 Uji Riverside Walk', note:'Slow walk back toward the station along the river. Sit on the riverbank — watch the water, decompress before Fauchon afternoon tea.'},
+      {time:'2:30 PM', act:'🚇 Return → Kyoto', note:'', dir:'🚇 Keihan Uji → Chushojima → Kiyomizu-Gojo (~45 min). Back at Fauchon ~3:30 PM.'},
+      {time:'4:00 PM', act:'☕ Fauchon Afternoon Tea', note:'Your last afternoon in Kyoto. Salon de Thé FAUCHON on the 10th floor — the "One Night in Kyoto" tea blend, macarons, mountain views. This is what the hotel was built for.'},
+      {time:'6:30 PM', act:'🌸 Final Kyoto Evening · Yasaka Shrine + Gion', note:'The lanterns of Yasaka Shrine glow orange at dusk. Walk slowly through Gion\'s back lanes one last time — Shirakawa Canal, Hanamikoji, the sound of a shamisen through a closed shoji screen. This is the Kyoto you\'ll remember.', dir:'🚶 15-min walk east from hotel toward Gion.'},
+      {time:'7:30 PM', act:'🍽️ Farewell Kyoto Dinner · Kawayuka Riverside Terrace', note:'Kawayuka — dining platforms extending over the Kamo River, open April–May only. Uniquely Kyoto, romantic, mid-range (¥5,000–8,000/person). Pontocho alley has the best concentration. Ask Fauchon concierge on arrival Apr 14 to recommend and book a specific restaurant by name in Japanese.', dir:'🚶 From Gion walk, head west toward Kamo River → Pontocho alley runs parallel to the river. Terraces are on the river-facing side of restaurants.'},
+    ],
+    pm_routine: {text:'🌙 Tonight — Pack all bags for checkout tomorrow morning. Confirm the Hankyu Bus plan for tomorrow: Bus departs Kyoto Station Hachijo (SOUTH) Exit at 9:00 AM. ⚠️ The Hachijo exit is the SOUTH side of Kyoto Station — completely different entrance from the main Karasuma north exit. Allow 15 min to walk from Fauchon to the station + 10 min to find the Hachijo Bus Terminal. Leave hotel by 8:00 AM. Book at JapanBusOnline.com if not already done.'}
+  },
+  {
+    id:'apr18', date:'April 18', dow:'Saturday', city:'arima',
+    title:'Kyoto → Arima Onsen · Tocen Goshoboh ♨️',
+    theme:'800-year ryokan · Kinsen gold spring · Kaiseki dinner',
+    hotel:'Tocen Goshoboh Ryokan',
+    items:[
+      {time:'7:30 AM', act:'🍳 Breakfast + Checkout · Fauchon', note:'Final Fauchon breakfast. Checkout by 12:00 but you\'re leaving at 8:00 AM — ask front desk to hold any remaining items. All bags with you today.'},
+      {time:'8:00 AM', act:'🚕 Taxi → Kyoto Station Hachijo Exit', note:'', dir:'🚕 Taxi from Fauchon → Kyoto Station (~10 min, ¥1,200). ⚠️ Tell driver: "Kyoto Station Hachijo-guchi" (八条口) — the SOUTH side. This is different from the main north entrance most taxis use. Allow time to find the correct side.'},
+      {time:'8:20 AM', act:'📍 Find Hankyu Bus Terminal · Hachijo South Exit', note:'⚠️ CRITICAL: The Hankyu Expressway Bus Terminal is on the SOUTH side of Kyoto Station (Hachijo Exit), not the main north side. Exit the taxi, walk straight — the bus terminal is the large covered bay directly outside. Look for the Arima Onsen signs. Buy tickets at the counter or show JapanBusOnline booking.', dir:'📍 Kyoto Station Hachijo Exit → Hankyu Highway Bus Terminal immediately outside. Bus Stop #3 for Arima Onsen. Confirm with the booth staff: "Arima Onsen, kudasai."'},
+      {time:'9:00 AM', act:'🚌 Hankyu Expressway Bus → Arima Onsen', note:'¥1,850/person. ~75 min. The bus winds up into the Rokko Mountains — views become increasingly dramatic. Arima Onsen is tucked in a mountain valley.', dir:'🚌 Board at Hachijo Bus Terminal Stop #3. Seats assigned. Arrives Arima Onsen Bus Terminal ~10:20 AM.'},
+      {time:'10:20 AM', act:'🏘️ Arrive Arima · Walk to Tocen Goshoboh', note:'', dir:'🚶 5-min walk from Arima bus terminal into the town center. Follow the main street — the town is tiny (walkable in 20 min total). Tocen Goshoboh: 有馬町858, on the right side where the river bends. Show driver/staff address: 兵庫県神戸市北区有馬町858.'},
+      {time:'10:35 AM', act:'🌿 Slow Arima Town Walk', note:'Leave bags at Tocen — they will be in your room by 3 PM. Walk up Yumotozaka Street lined with old bathhouses and craft shops. Stop at the free footbath near Kin no Yu entrance — dip your feet, great photo. No need to pay for the public bath when Tocen\'s legendary kinsen is waiting.'},
+      {time:'11:00 AM', act:'⛩️ Onsen-ji Temple + Arimagawa Riverside', note:'8th-century temple tied to hot spring legends — small, quiet, spiritual. Then stroll the riverside stone path. The entire town is only 1km — walk without rushing.'},
+      {time:'11:45 AM', act:'🍱 Light Lunch', note:'Mitsumori Honpo — soba with Arima spring salt, deeply local. Or Kin no Yu Café Chouette for matcha parfait. Keep it light — kaiseki tonight is multi-course and extraordinary.', dir:'🚶 Both within 5-min walk of town center.'},
+      {time:'12:30 PM', act:'🛍️ Arima Souvenir Shopping', note:'炭酸せんべい carbonated wafers — Arima\'s most famous souvenir. Onsen bath salts to take home. Local sake. The town is tiny and charming — just wander.'},
+      {time:'1:30 PM', act:'🚡 Rokkō Ropeway + Summit (if clear)', note:'Panoramic views of Kobe port, Osaka Bay, Awaji Island on clear days. Lavender soft serve at summit garden café. Back by 3:00 PM. If cloudy skip and stay in town.', dir:'🚕 Taxi from Arima town center to Rokko Cable Base (~¥1,500, ~10 min). Ask Tocen front desk to call taxi on arrival. Ropeway 9:30–17:30.'},ay', city:'arima',
+    title:'Kyoto → Arima Onsen · Tocen Goshoboh ♨️',
+    theme:'800-year ryokan · Kinsen gold spring · Kaiseki dinner',
+    hotel:'Tocen Goshoboh Ryokan',
+    items:[
+      {time:'7:30 AM', act:'🍳 Breakfast + Checkout · Fauchon', note:'Final Fauchon breakfast. Checkout by 12:00 but you\'re leaving at 8:00 AM — ask front desk to hold any remaining items. All bags with you today.'},
+      {time:'8:00 AM', act:'🚕 Taxi → Kyoto Station Hachijo Exit', note:'', dir:'🚕 Taxi from Fauchon → Kyoto Station (~10 min, ¥1,200). ⚠️ Tell driver: "Kyoto Station Hachijo-guchi" (八条口) — the SOUTH side. This is different from the main north entrance most taxis use. Allow time to find the correct side.'},
+      {time:'8:20 AM', act:'📍 Find Hankyu Bus Terminal · Hachijo South Exit', note:'⚠️ CRITICAL: The Hankyu Expressway Bus Terminal is on the SOUTH side of Kyoto Station (Hachijo Exit), not the main north side. Exit the taxi, walk straight — the bus terminal is the large covered bay directly outside. Look for the Arima Onsen signs. Buy tickets at the counter or show JapanBusOnline booking.', dir:'📍 Kyoto Station Hachijo Exit → Hankyu Highway Bus Terminal immediately outside. Bus Stop #3 for Arima Onsen. Confirm with the booth staff: "Arima Onsen, kudasai."'},
+      {time:'9:00 AM', act:'🚌 Hankyu Expressway Bus → Arima Onsen', note:'¥1,850/person. ~75 min. The bus winds up into the Rokko Mountains — views become increasingly dramatic. Arima Onsen is tucked in a mountain valley.', dir:'🚌 Board at Hachijo Bus Terminal Stop #3. Seats assigned. Arrives Arima Onsen Bus Terminal ~10:20 AM.'},
+      {time:'10:20 AM', act:'🏘️ Arrive Arima · Walk to Tocen Goshoboh', note:'', dir:'🚶 5-min walk from Arima bus terminal into the town center. Follow the main street — the town is tiny (walkable in 20 min total). Tocen Goshoboh: 有馬町858, on the right side where the river bends. Show driver/staff address: 兵庫県神戸市北区有馬町858.'},
+      {time:'10:35 AM', act:'☕ Arima Town Morning Walk', note:'Check-in not until 15:00 — leave bags at Tocen and explore. Stop at the free foot bath near Kin no Yu for a preview of the famous gold spring water. Try the炭酸まんじゅう (carbonated manju) — Arima\'s famous sweet made with the naturally carbonated spring water.'},
+      {time:'11:30 AM', act:'♨️ Kin no Yu Public Bath (Optional)', note:'¥650/person. Open 8:00–22:00. The famous "Gold Spring" — iron-rich, reddish-brown water. This is the water that made Arima famous. Completely separate from your ryokan bath.', dir:'🚶 2-min walk from town center — the most prominent building in town.'},
+      {time:'12:30 PM', act:'🍱 Light Lunch in Town', note:'Small restaurants and cafés along the main street. Keep it light — kaiseki dinner tonight is multi-course.'},
+      {time:'1:30 PM', act:'🚡 Rokkō Ropeway + Summit', note:'Taxi or walk to Rokko Cable Base Station (~15 min). Ropeway operates 9:30–17:30 — be back at the base by 16:30. Panoramic views of Kobe port, Osaka Bay, and Awaji Island on clear days.', highlight:true, dir:'🚕 Taxi from Arima town center to Rokko Cable Base (~¥1,500, ~10 min). Ask Tocen concierge to call a taxi.'},
+      {time:'3:00 PM', act:'🏨 Check-in · Tocen Goshoboh (15:00)', note:'Founded 1191. This is the oldest hot spring inn in Japan. Only 12 rooms. The building creaks with 800 years of history. Your yukata and geta sandals are laid out. Change immediately — you\'re in Japan\'s past now.'},
+      {time:'3:30 PM', act:'♨️ Kinsen Onsen · Before Dinner', note:'The hotel\'s gold spring bath. Shower at the washing stations first — this is mandatory and non-negotiable in Japanese onsen culture. The reddish-brown mineral water is therapeutic, deeply relaxing, unlike any bath you\'ve experienced. Men and women separate.'},
+      {time:'5:00 PM', act:'🌇 Arima Town Walk in Yukata', note:'Put on your yukata and geta and walk the empty evening town. Day visitors leave after 5 PM. The stone streets, paper lanterns, the sound of flowing water — this is medieval Japan.', highlight:true},
+      {time:'6:30 PM', act:'🍱 Kaiseki Dinner · Sanboh Kan', note:'✅ CONFIRMED 18:30 · Dinner included in room rate · Hyogo mountain and sea cuisine in the Kamakura tradition · Beautifully presented seasonal courses. ⚠️ DRINKS NOT INCLUDED — sake, beer, and tea are all à la carte. Budget ¥3,000–5,000 for two.', confirmed:true, restaurant:'tocen'},
+      {time:'8:30 PM', act:'♨️ Evening Onsen · The Best Moment of Your Trip', note:'Post-dinner soak. The gold spring at night, silence of the mountain town outside, yukata hanging on the hook. This is why people travel to Japan.', highlight:true},
+    ]
+  },
+  {
+    id:'apr19', date:'April 19', dow:'Sunday', city:'osaka',
+    title:'Arima → Osaka · City Arrival · Kuromon + Namba',
+    theme:'Mountain to megacity · Street food market · Dōtonbori energy',
+    hotel:'Caption by Hyatt Namba Osaka',
+    items:[
+      {time:'8:00 AM', act:'🍱 Breakfast @ Tocen Goshoboh', note:'Included. Tofu from Arima black soybeans, local rice, pickled mountain vegetables, miso soup. This is Japanese breakfast at its most refined. Eat slowly.'},
+      {time:'9:30 AM', act:'♨️ Morning Onsen + Checkout', note:'Checkout 10:00–11:00 AM strict. One last soak in the gold spring before leaving. The ryokan staff will bow you out — receive it graciously.'},
+      {time:'10:20 AM', act:'🚌 Hankyu Bus → Osaka Umeda', note:'¥1,850/person. ~75 min.', dir:'🚶 2-min walk from Tocen Goshoboh to Arima Onsen Bus Terminal. Board Hankyu Expressway Bus direction Osaka Umeda. Arrives ~11:45 AM.'},
+      {time:'11:45 AM', act:'🚇 Osaka Metro → Namba', note:'', dir:'🚇 Osaka Umeda → Midosuji Line (red) → Namba Station (~10 min, ¥230). Exit 14. Walk 5 min south to Caption by Hyatt. Drop bags at front desk — room may not be ready.'},
+      {time:'12:15 PM', act:'🍢 Lunch · Kuromon Ichiba Market', note:'Osaka\'s "kitchen" — a covered market with 180 stalls selling the freshest seafood, grilled scallops, uni on spoons, yakitori. Eat as you walk. This is Osaka food culture at its most raw and joyful. Go by noon for best selection.', dir:'🚶 5-min walk north from Caption by Hyatt on Nippombashi Street.'},
+      {time:'1:30 PM', act:'⛩️ Shitennō-ji Temple', note:'Founded 593 AD by Prince Shōtoku — Japan\'s oldest officially administered temple. The architecture is more ancient-Chinese in style than most Japanese temples; the five-story pagoda and golden lecture hall are magnificent. Adults ¥300. Less crowded than Osaka Castle.', dir:'🚇 Namba → Tanimachi 9-chome (Tanimachi/Chūō Line, ~10 min). 5-min walk south.'},
+      {time:'2:45 PM', act:'🏯 Osaka Castle (Optional)', note:'If energy allows — Osaka Castle grounds are free and stunning. Cherry blossom moat, massive stone walls, dramatic views of the city from the reconstructed tower.', dir:'🚇 Tanimachi 9-chome → Tanimachi 4-chome (1 stop). 10-min walk east to castle.'},
+      {time:'', act:'', note:'', optional: true, optionalText: '🟡 OSAKA CASTLE — OPTIONAL\n\nIF KEEPING: After Shitennō-ji → Tanimachi Line 1 stop north → Tanimachi 4-chome → 10-min walk east to castle grounds. Free entry to grounds. Allow 90 min.\n\nIF SKIPPING: After Shitennō-ji → return to Namba → check into Caption by Hyatt → rest → Dōtonbori walk at leisure before dinner. Much more relaxed first Osaka evening.'},
+      {time:'5:30 PM', act:'🌆 Dōtonbori Evening Walk', note:'The giant illuminated Glico Running Man, Kani Doraku mechanical crab, neon reflections on the canal. Dōtonbori is kitsch and overwhelming and completely wonderful. Walk the canal, take the photos, absorb the energy.', dir:'🚶 5-min walk north from Caption by Hyatt along Nippombashi, then right on Dōtonbori Canal.'},
+      {time:'7:30 PM', act:'🍽️ Dinner · Dōtonbori', note:'Mizuno Okonomiyaki (est. 1945, Osaka-style savory pancake, walk-in, arrive 6:30 PM). Or Kani Doraku for crab (walk-in at lunch, dinner needs reservation). Countless other options along the canal.'},
+      {time:'9:00 PM', act:'🚢 Dōtonbori Night Cruise', note:'¥1,500/person. ~45 min. The neon Glico Man, giant crab, and glowing signs reflected in the dark canal water from a boat is one of Osaka's most romantic experiences. Completely different perspective from the street. Book at the canal-side ticket booth.', highlight:true, dir:'📍 Cruise boarding at Tonomachi-bashi dock on the Dōtonbori Canal — look for the ticket booth with the boat signs, right on the waterfront.'},
+    ]
+  },
+  {
+   {time:'3:30 PM', act:'🏨 Return to Hotel · Check-in · Rest', note:'Transition day after a ryokan stay deserves breathing space. Freshen up, change, recharge before Dotonbori tonight.', dir:'🚇 Yodoyabashi → Midosuji Line (red) → Namba (~10 min). 💳 Tap ICOCA.'},
+      {time:'5:00 PM', act:'🛍️ Shinsaibashi Shopping', note:"Japan's most famous covered arcade — 600m of boutiques, cosmetics, street food. Perfect for last-minute Japan gifts.", dir:'🚶 10-min walk north from hotel on Shinsaibashi-suji arcade.'}, title:'Arima → Osaka · City Arrival · Kuromon + Namba',
+    theme:'Mountain to megacity · Street food market · Dōtonbori energy',
+    hotel:'Caption by Hyatt Namba Osaka',
+    items:[
+      {time:'8:00 AM', act:'🍱 Breakfast @ Tocen Goshoboh', note:'Included. Tofu from Arima black soybeans, local rice, pickled mountain vegetables, miso soup. This is Japanese breakfast at its most refined. Eat slowly.'},
+      {time:'9:30 AM', act:'♨️ Morning Onsen + Checkout', note:'Checkout 10:00–11:00 AM strict. One last soak in the gold spring before leaving. The ryokan staff will bow you out — receive it graciously.'},
+      {time:'10:20 AM', act:'🚌 Hankyu Bus → Osaka Umeda', note:'¥1,850/person. ~75 min.', dir:'🚶 2-min walk from Tocen Goshoboh to Arima Onsen Bus Terminal. Board Hankyu Expressway Bus direction Osaka Umeda. Arrives ~11:45 AM.'},
+      {time:'11:45 AM', act:'🚇 Osaka Metro → Namba', note:'', dir:'🚇 Osaka Umeda → Midosuji Line (red) → Namba Station (~10 min, ¥230). Exit 14. Walk 5 min south to Caption by Hyatt. Drop bags at front desk — room may not be ready.'},
+      {time:'12:15 PM', act:'🍢 Lunch · Kuromon Ichiba Market', note:'Osaka\'s "kitchen" — a covered market with 180 stalls selling the freshest seafood, grilled scallops, uni on spoons, yakitori. Eat as you walk. This is Osaka food culture at its most raw and joyful. Go by noon for best selection.', dir:'🚶 5-min walk north from Caption by Hyatt on Nippombashi Street.'},
+      {time:'1:30 PM', act:'⛩️ Shitennō-ji Temple', note:'Founded 593 AD by Prince Shōtoku — Japan\'s oldest officially administered temple. The architecture is more ancient-Chinese in style than most Japanese temples; the five-story pagoda and golden lecture hall are magnificent. Adults ¥300. Less crowded than Osaka Castle.', dir:'🚇 Namba → Tanimachi 9-chome (Tanimachi/Chūō Line, ~10 min). 5-min walk south.'},
+      {time:'2:45 PM', act:'🏯 Osaka Castle (Optional)', note:'If energy allows — Osaka Castle grounds are free and stunning. Cherry blossom moat, massive stone walls, dramatic views of the city from the reconstructed tower.', dir:'🚇 Tanimachi 9-chome → Tanimachi 4-chome (1 stop). 10-min walk east to castle.'},
+      {time:'', act:'', note:'', optional: true, optionalText: '🟡 OSAKA CASTLE — OPTIONAL\n\nIF KEEPING: After Shitennō-ji → Tanimachi Line 1 stop north → Tanimachi 4-chome → 10-min walk east to castle grounds. Free entry to grounds. Allow 90 min.\n\nIF SKIPPING: After Shitennō-ji → return to Namba → check into Caption by Hyatt → rest → Dōtonbori walk at leisure before dinner. Much more relaxed first Osaka evening.'},
+      {time:'5:30 PM', act:'🌆 Dōtonbori Evening Walk', note:'The giant illuminated Glico Running Man, Kani Doraku mechanical crab, neon reflections on the canal. Dōtonbori is kitsch and overwhelming and completely wonderful. Walk the canal, take the photos, absorb the energy.', dir:'🚶 5-min walk north from Caption by Hyatt along Nippombashi, then right on Dōtonbori Canal.'},
+      {time:'7:30 PM', act:'🍽️ Dinner · Dōtonbori', note:'Mizuno Okonomiyaki (est. 1945, Osaka-style savory pancake, walk-in, arrive 6:30 PM). Or Kani Doraku for crab (walk-in at lunch, dinner needs reservation). Countless other options along the canal.'},
+      {time:'9:00 PM', act:'🚢 Dōtonbori Night Cruise', note:'¥1,500/person. ~45 min. The neon Glico Man, giant crab, and glowing signs reflected in the dark canal water from a boat is one of Osaka's most romantic experiences. Completely different perspective from the street. Book at the canal-side ticket booth.', highlight:true, dir:'📍 Cruise boarding at Tonomachi-bashi dock on the Dōtonbori Canal — look for the ticket booth with the boat signs, right on the waterfront.'},
+    ]
+  },
+  {
+    id:'apr20', date:'April 20', dow:'Monday', city:'osaka',
+    title:'Deep Osaka Day · South to North Flow',
+    theme:'Ancient shrine · Retro district · Riverside museum · Lantern alley',
+    hotel:'Caption by Hyatt Namba Osaka',
+    items:[
+      {time:'7:30 AM', act:'☕ Breakfast @ Caption by Hyatt', note:'Talk Shop café opens 7:00 AM. Good coffee, light food.'},
+      {time:'8:30 AM', act:'🚆 Nankai Line → Sumiyoshi Taisha', note:'Start in south Osaka and work your way north — geographically clean, no backtracking all day.', dir:'🚆 Osaka-Namba Station (Nankai Line, ground level near hotel) → Sumiyoshi-taisha Station (~15 min, ¥210). Exit 2, walk 2 min.'},
+      {time:'8:50 AM', act:'⛩️ Sumiyoshi Taisha Shrine', note:'Founded in the 3rd century — one of Japan\'s oldest shrines and the model for Sumiyoshi-style architecture (no Chinese or Buddhist influence, purely Japanese). The vermilion Sorihashi arch bridge at the entrance, perfectly reflected in the pond at morning light, is one of Osaka\'s great images. Almost no tourists this early.', highlight:true},
+      {time:'10:00 AM', act:'🏮 Shinsekai · Retro Osaka', note:'The most Osaka-feeling neighborhood in Osaka. Built in 1912 as a futuristic entertainment district, now charmingly faded. The Tsutenkaku Tower watches over kushikatsu (deep-fried skewer) restaurants, pachinko parlors, and old-school coffee shops. The perfect cultural counterpoint to yesterday\'s Dōtonbori.', dir:'🚇 Sumiyoshi-taisha → Namboku Line → Dobutsuen-mae Station (~15 min). Walk 5 min toward the Tsutenkaku Tower.'},
+      {time:'11:30 AM', act:'🚇 Travel → Nakanoshima', note:'Head north to the cultural island in the river.', dir:'🚇 Dobutsuen-mae → Midosuji Line (red) → Yodoyabashi Station (~15 min). Walk 5 min east onto Nakanoshima island.'},
+      {time:'2:30 PM', act:'🌇 Umeda Sky Building · Floating Garden Observatory', note:'Two towers connected by a floating garden observatory 170m up. 360° views of Osaka, the bay, Awaji Island on clear days. ¥1,500/person. Open 10:00–22:30. Allow 1.5 hrs.', highlight:true},
+      {time:'1:00 PM', act:'☕ Lunch · Kitahama Riverside', note:'Brooklyn Roasting Company on the Nakanoshima riverfront — excellent lunch, outdoor terrace overlooking the water. Or Kitahama area cafés.'},
+      {time:'2:15 PM', act:'🌿 Nakanoshima Park Walk', note:'The island park between two rivers, designed in 1891. Rose gardens, waterfront benches, Osaka City Hall reflected in the water. A moment of calm in the middle of the city.'},
+      {time:'3:30 PM', act:'🏨 Return to Hotel · Rest', note:'', dir:'🚇 Yodoyabashi → Midosuji Line → Namba (~10 min).'},
+      {time:'5:00 PM', act:'🛍️ Shinsaibashi Shopping', note:'Japan\'s most famous covered shopping arcade — 600m of boutiques, department stores, cosmetics. Good for last-minute gifts and shopping.', dir:'🚶 10-min walk north from hotel on the main Shinsaibashi-suji arcade.'},
+      {time:'7:00 PM', act:'🏮 Dinner · Hōzenji Yokocho Lantern Alley', note:'The most atmospheric dining in Osaka. A narrow moss-covered alley where the Fudōson shrine is continuously doused in water by worshippers. Lanterns glow, the air smells of incense and grilling food. Walk through first, then choose your restaurant.', highlight:true, dir:'🚶 5-min walk from Caption by Hyatt. North on Nippombashi, right on Sennichimae-dori, left into the alley.'},
+    ]
+  },
+  {
+    id:'apr21', date:'April 21', dow:'Tuesday', city:'osaka',
+    title:'Kobe Day Trip · Kobe Beef Lunch 🥩 · Move to Itami',
+    theme:'Mountain ropeway · Kitano · Confirmed Mouriya · Transfer to airport hotel',
+    hotel:'Osaka Air Terminal Hotel (Itami)',
+    items:[
+      {time:'7:30 AM', act:'🍳 Breakfast @ Caption by Hyatt', note:'Last Osaka breakfast. Check out after — luggage to airport hotel tonight.'},
+      {time:'8:10 AM', act:'🚇 Travel → Kobe Sannomiya', note:'', dir:'🚇 Namba → Osaka Metro Midosuji Line (red) → Umeda (~10 min) → transfer JR Special Rapid → JR Sannomiya/Kobe (~30 min, ¥410). Total ~40 min.'},
+      {time:'9:10 AM', act:'🚡 Walk to Nunobiki Ropeway', note:'', dir:'🚶 From Shin-Kobe Station (1 stop north of Sannomiya on Seishin-Yamate Line): 12-min walk uphill to ropeway base. OR taxi from Sannomiya ¥800.'},
+      {time:'9:30 AM', act:'🚡 Nunobiki Ropeway + Herb Garden', note:'Opens 9:30 AM. Combo ticket ~¥1,800. The ropeway ascends through cedar forest to 400m — views of Kobe port, container ships, Osaka Bay, and Awaji Island beyond. The herb garden at the top is in full April bloom.', highlight:true},
+      {time:'10:45 AM', act:'🥾 Forest Trail Descent → Shin-Kobe', note:'25-min forested trail down through the Rokko range. Cool, shaded, beautiful. Wears good walking shoes.', dir:'🥾 Follow trail signs from midway ropeway station → Nunobiki Herb Garden → footpath → Shin-Kobe area.'},
+      {time:'11:30 AM', act:'⛩️ Ikuta Shrine', note:'A quiet spiritual anchor in the middle of downtown Sannomiya. Founded in 201 AD — one of Japan\'s oldest. The forested shrine grounds (Ikuta Mori) are surprising in the middle of the city. Free entry.', dir:'🚶 15-min walk south from Shin-Kobe down Kitanozaka slope. Ikuta Shrine is at the base.'},
+      {time:'12:15 PM', act:'🥩 Kobe Beef Lunch · Mouriya Honten', note:'✅ CONFIRMED · A5 certified Kobe beef teppanyaki · Since 1885. The chef slices the marbled beef before you, prepares your teppan with fresh garlic butter, and the fat renders with a sound and smell you\'ll never forget. The chef photographs you with your beef before cooking — smile. From ¥8,000/person for lunch.', confirmed:true, restaurant:'mouriya', dir:'🚶 5-min walk from Ikuta Shrine south down the main Ikuta-dori. Mouriya is on the right on Shimoyamate-dori — stone facade, traditional exterior.'},
+      {time:'1:45 PM', act:'🏠 Kitano Ijinkan Historic District', note:'Former Western residences from the 1868 Meiji opening of Kobe port — Dutch, English, French merchants built these Western-style houses on the Kitano hill above the harbor. The Weathercock House (¥700) and Moegi House (¥700) are the best. The contrast with the samurai architecture you\'ve seen all trip is striking.', dir:'🚶 10-min walk uphill north from Mouriya back up Kitanozaka slope.'},
+      {time:'3:15 PM', act:'🌊 Kobe Harborland + Mosaic', note:'Kobe\'s waterfront promenade. The Port Tower reflection, views across the bay to Awaji Island. A completely different Japan from everything you\'ve seen — international, cosmopolitan, open.', dir:'🚇 JR Kobe → Harborland Station (1 stop, 3 min). OR taxi ~¥800 from Kitano.'},
+      {time:'5:00 PM', act:'🍽️ Dinner · Kobe Harbor', note:'Last Japan dinner — choose well. Tooth Tooth Paradise for harbor view (reserve). Or casual harbor dining.'},
+      {time:'6:30 PM', act:'🚆 Return: Kobe → Osaka → Itami Hotel', note:'', dir:'🚆 JR Sannomiya → Osaka Station (~25 min) → Osaka Monorail from Hotarugaike → Osaka Airport Station (~20 min). OR taxi from Osaka Umeda directly to Itami hotel (~30 min, ¥6,500). Hotel is inside terminal building Level 3.'},
+      {time:'8:30 PM', act:'🏨 Check-in · Osaka Air Terminal Hotel', note:'Inside the terminal. Lay out tomorrow\'s travel clothes. Set two alarms for 5:30 AM. Japanese breakfast available from 6:00 AM.'},
+    ],
+    pm_routine: {text:'🌙 Tonight: Lay out passport, JR Pass, ICOCA, phone charger, and boarding passes. Set alarm for 5:30 AM. NH14 departs 7:30 AM — check-in closes at 6:45 AM. Terminal is 5-min walk from your room.'}
+  },
+  {
+    id:'apr22', date:'April 22', dow:'Wednesday', city:'osaka',
+    title:'✈️ Departure Day · Arigato Gozaimashita 🇯🇵',
+    theme:'Itami → Haneda → IAD · Safe travels home',
+    hotel:'In Transit',
+    items:[
+      {time:'5:30 AM', act:'⏰ Wake Up · Final Pack', note:'Last check: passport, JR Pass (keep as souvenir), ICOCA (can keep or refund at airport), phone charger, all adapters, any duty-free items sealed in original bags.'},
+      {time:'6:00 AM', act:'🍳 Breakfast @ Hotel', note:'Hotel breakfast available from 6:00 AM. Quick Japanese-style breakfast before departure.'},
+      {time:'6:20 AM', act:'🚶 Walk to Itami South Terminal', note:'', dir:'🚶 5-min walk from hotel through terminal building. Follow signs to South Terminal — ANA departures. ⚠️ ANA domestic check-in counter: allow arrival by 6:30 AM for 7:30 AM departure.'},
+      {time:'6:30 AM', act:'✈️ Check-in · ANA NH14 · Itami → Haneda', note:'Conf: E3I636 / E48N1C. Domestic flight — no immigration. Drop bags here; they transfer automatically to NH102 at Haneda (confirm with ANA check-in agent that bags are tagged through to IAD).', dir:'📍 ANA check-in counters, South Terminal. Ask agent: "bags checked through to Washington Dulles (IAD)."'},
+      {time:'7:30 AM', act:'✈️ Depart Osaka Itami (ITM) · NH14', note:'ANA flight to Tokyo Haneda. ~1h15 min. Beautiful view of Fuji on clear mornings from the right side of the plane.'},
+      {time:'8:45 AM', act:'🛬 Arrive Tokyo Haneda · Terminal 2 → Terminal 3', note:'NH14 arrives Terminal 2. NH102 departs Terminal 3. Follow transfer signs — free shuttle bus runs between terminals every few minutes. Allow 30 min for the transfer.', dir:'🚌 Haneda domestic-to-international transfer: follow "International Connections" signs in Terminal 2 → shuttle bus → Terminal 3 international. Allow 30 min minimum.'},
+      {time:'9:15 AM', act:'🛂 International Check-in + Security · Terminal 3', note:'Bags should have transferred automatically. Proceed to international security + immigration. ANA lounge (Star Alliance Gold/Priority Pass) is airside if you have access.'},
+      {time:'10:20 AM', act:'✈️ Depart Tokyo Haneda (HND) · NH102 · ANA', note:'ANA All Nippon Airways to Washington Dulles. Conf: E3I636 / E48N1C. Terminal 0 at Haneda.', highlight:true},
+      {time:'10:05 AM', act:'🛬 Arrive Washington Dulles (IAD)', note:'Wednesday April 22, 10:05 AM EDT. 15 nights. 5 cities. One unforgettable trip. 🌸🇯🇵', highlight:true},
+    ]
+  },
+];
+
+const ACTIONS = [
+  {id:1, title:'teamLab Borderless tickets · Apr 10, 9:30 AM', date:'Apr 10', note:'Azabudai Hills, Kamiyacho Exit 5. Download teamLab app before travel.', status:'done', section:'done'},
+  {id:2, title:'Tocen Goshoboh dinner 18:30 confirmed', date:'Apr 18', note:'#6870452926 · PIN 3654. Dinner in room rate. Drinks à la carte.', status:'done', section:'done'},
+  {id:3, title:'21st Century Museum Monday closure noted', date:'Apr 13', note:'Gallery closed Mon — free outdoor Swimming Pool still accessible.', status:'done', section:'done'},
+  {id:4, title:'Mouriya Honten Kobe Beef lunch', date:'Apr 21', note:'Confirmed via Amex concierge. Honten branch. mouriya.co.jp', status:'done', section:'done'},
+  {id:5, title:'Sushi Kinari Kanazawa dinner · 7:00 PM', date:'Apr 13', note:'Booked via TableCheck. ¥22,000/person. Uni + nodoguro course.', status:'done', section:'done'},
+  {id:6, title:'Nikko trains — both directions', date:'Apr 11', note:'Liberty Kegon No.1 (6:30 AM) + No.42 (16:20 return). Car 2, seats 10C & 10D.', status:'done', section:'done'},
+  {id:7, title:'Asakusa Imahan birthday dinner · 6:30 PM', date:'Apr 8', note:'Confirmed via Amex concierge. Private tatami room. Sukiyaki.', status:'done', section:'done'},
+  {id:8, title:'Sagano Romantic Train · 9:30 AM', date:'Apr 16', note:'✅ BOOKED · Car 4, Seats 13C & 13D · Kameoka → Arashiyama · Conf: ars-20260322015619-130488', status:'done', section:'done'},
+  {id:9, title:'Osaka Air Terminal Hotel · Itami Airport', date:'Apr 21 night', note:'Inside terminal Level 3. Walk to gate. Japanese breakfast from 6 AM.', status:'done', section:'done'},
+  {id:10, title:'Hankyu Bus · Kyoto → Arima Onsen · 9:00 AM', date:'Apr 18', note:'Hachijo (SOUTH) Exit bus terminal. ¥1,850/person. Book at JapanBusOnline.com if not done.', status:'open', section:'soon'},
+  {id:11, title:'Hyatt Centric Kanazawa — Ninja Temple concierge call', date:'Apr 13', note:'Ask concierge on arrival Apr 12 to call Myōryū-ji in Japanese. Cash ¥1,000 only.', status:'open', section:'soon'},
+  {id:12, title:'JR Pass — activate at Haneda Airport on arrival', date:'Apr 8', note:'JR Office in arrivals hall, before taking first train. Must activate before first use.', status:'open', section:'later'},
+  {id:13, title:'Hankyu Bus · Arima → Osaka Umeda · morning', date:'Apr 19', note:'Walk-up OK at Arima bus terminal. Departs ~9:30-10:00 AM. ¥1,850/person.', status:'open', section:'later'},
+];
+
+let currentCity = 'tokyo';
+let currentDayIdx = 0;
+let actionStates = {};
+
+function updateCountdown() {
+  const dep = new Date('2026-04-07T12:10:00-04:00');
+  const now = new Date();
+  const diff = dep - now;
+  if (diff <= 0) {
+    document.getElementById('countdown-numbers').innerHTML = '<div style="color:var(--sakura);font-family:Shippori Mincho,serif;font-size:16px">You\'re in Japan! 🇯🇵</div>';
+    return;
+  }
+  const d = Math.floor(diff/(1000*60*60*24));
+  const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  const m = Math.floor((diff%(1000*60*60))/(1000*60));
+  document.getElementById('countdown-numbers').innerHTML = `
+    <div class="countdown-unit"><div class="n">${d}</div><div class="u">Days</div></div>
+    <div class="countdown-unit"><div class="n">${h}</div><div class="u">Hours</div></div>
+    <div class="countdown-unit"><div class="n">${m}</div><div class="u">Mins</div></div>
+  `;
+  document.getElementById('stat-days').textContent = d;
+}
+
+function getDaysForCity(city) { return DAYS.filter(d => d.city === city); }
+
+function selectCity(city, e) {
+  currentCity = city;
+  currentDayIdx = 0;
+  document.querySelectorAll('.hotel-card').forEach(c => c.classList.remove('selected'));
+  if (e && e.currentTarget) e.currentTarget.classList.add('selected');
+  renderDaySelector();
+  renderDay();
+}
+
+function renderDaySelector() {
+  const days = getDaysForCity(currentCity);
+  document.getElementById('day-selector').innerHTML = days.map((d,i) =>
+    `<button class="day-btn ${i===currentDayIdx?'active':''}" onclick="selectDay(${i})">${d.date}</button>`
+  ).join('');
+}
+
+function selectDay(idx) {
+  currentDayIdx = idx;
+  renderDaySelector();
+  renderDay();
+}
+
+function renderDay() {
+  const days = getDaysForCity(currentCity);
+  const day = days[currentDayIdx];
+  if (!day) return;
+
+  const itemsHTML = day.items.map(item => {
+    if (item.optional) {
+      return `<div class="timeline-item">
+        <div class="tl-time"></div>
+        <div class="tl-content">
+          <div class="optional-box"><strong>🟡 OPTIONAL STOP</strong><br>${item.optionalText.replace(/\n/g,'<br>')}</div>
+        </div>
+      </div>`;
+    }
+    if (!item.act) return '';
+
+    const cls = item.confirmed ? 'confirmed' : item.highlight ? 'highlight' : item.warning ? 'warning' : '';
+    const badge = item.confirmed ? '<span class="tl-badge badge-confirmed">✓ Confirmed</span>' : item.warning ? '<span class="tl-badge badge-warning">⚠ Note</span>' : '';
+
+    let restaurantHTML = '';
+    if (item.restaurant && RESTAURANTS[item.restaurant]) {
+      const r = RESTAURANTS[item.restaurant];
+      restaurantHTML = `<div class="restaurant-card">
+        <div class="r-name">🍽️ ${r.name} ${r.confirmed ? '<span style="font-size:10px;background:var(--done-light);color:var(--done);padding:2px 6px;border-radius:6px;font-weight:600;">✓ CONFIRMED</span>' : ''}</div>
+        <div class="r-detail">📅 ${r.date}<br>📍 ${r.address}<br>🇯🇵 ${r.addressJa}<br>📞 ${r.phone}<br>🍴 ${r.what}<br>💴 ${r.included}</div>
+        <div class="r-directions">🗺️ ${r.directions}</div>
+      </div>`;
+    }
+
+    const dirHTML = item.dir ? `<div class="tl-directions">${item.dir}</div>` : '';
+
+    return `<div class="timeline-item">
+      <div class="tl-time">${item.time}</div>
+      <div class="tl-content ${cls}">
+        <div class="tl-activity">${item.act}${badge}</div>
+        ${item.note ? `<div class="tl-note">${item.note}</div>` : ''}
+        ${dirHTML}
+        ${restaurantHTML}
+      </div>
+    </div>`;
+  }).join('');
+
+  const pmHTML = day.pm_routine ? `
+    <div style="margin-top:16px;padding:14px 16px;background:var(--purple-light);border-radius:10px;border-left:3px solid var(--purple);">
+      <div style="font-size:12px;color:var(--purple);font-weight:600;margin-bottom:4px;">🌙 Before Sleep — Tonight's Checklist</div>
+      <div style="font-size:12px;color:var(--ash);line-height:1.6;">${day.pm_routine.text}</div>
+    </div>` : '';
+
+  const prevDay = days[currentDayIdx-1];
+  const nextDay = days[currentDayIdx+1];
+
+  document.getElementById('day-view').innerHTML = `
+    <div class="day-header">
+      <div><h2>${day.date} · ${day.dow}</h2><div class="day-theme">${day.theme}</div></div>
+      <span class="hotel-tag">🏨 ${day.hotel}</span>
+    </div>
+    <div class="timeline">${itemsHTML}</div>
+    ${pmHTML}
+
+    <div class="day-nav">
+      <button class="nav-btn" onclick="selectDay(${currentDayIdx-1})" ${currentDayIdx===0?'disabled':''}>← ${prevDay?prevDay.date:''}</button>
+      <button class="nav-btn" onclick="selectDay(${currentDayIdx+1})" ${currentDayIdx===days.length-1?'disabled':''}>→ ${nextDay?nextDay.date:''}</button>
+    </div>
+  `;
+}
+
+function renderActions() {
+  const sections = [
+    {key:'done', label:'✅ Confirmed & Complete', cls:'section-done'},
+    {key:'soon', label:'🟠 Do This Week', cls:'section-soon'},
+    {key:'later', label:'🟡 Do Closer to Trip / In Japan', cls:'section-later'},
+  ];
+  let done=0, open=0;
+
+  const html = sections.map(sec => {
+    const items = ACTIONS.filter(a => a.section === sec.key);
+    if (!items.length) return '';
+    const itemsHTML = items.map(action => {
+      const checked = actionStates[action.id] ?? (action.status==='done');
+      if (checked) done++; else open++;
+      return `<div class="action-item ${checked?'done':''}" id="action-${action.id}">
+        <div class="action-check ${checked?'checked':''}" onclick="toggleAction(${action.id})">${checked?'✓':''}</div>
+        <div class="action-body">
+          <div class="action-title ${checked?'strikethrough':''}">${action.title}</div>
+          <div class="action-meta">
+            <span class="meta-tag tag-date">📅 ${action.date}</span>
+            ${checked?'<span class="meta-tag tag-done">Done ✓</span>':''}
+            ${action.section==='soon'&&!checked?'<span class="meta-tag tag-soon">This week</span>':''}
+            ${action.section==='later'&&!checked?'<span class="meta-tag tag-info">Do later</span>':''}
+          </div>
+          ${action.note?`<div class="action-note">${action.note}</div>`:''}
+
+        </div>
+
+      </div>`;
+    }).join('');
+    return `<div class="action-section"><div class="action-section-header ${sec.cls}">${sec.label}</div>${itemsHTML}</div>`;
+  }).join('');
+
+  document.getElementById('action-list-container').innerHTML = html;
+  document.getElementById('stat-done').textContent = done;
+  document.getElementById('stat-open').textContent = open;
+  document.getElementById('stat-total').textContent = ACTIONS.length;
+  updateProgressBar(done, ACTIONS.length);
+}
+
+function toggleAction(id) {
+  const cur = actionStates[id] ?? (ACTIONS.find(a=>a.id===id)?.status==='done');
+  actionStates[id] = !cur;
+  renderActions();
+}
+
+function updateProgressBar(done, total) {
+  const pct = Math.round((done/total)*100);
+  document.getElementById('progress-fill').style.width = pct+'%';
+  document.getElementById('progress-text').textContent = `${done}/${total} done`;
+}
+
+function renderHotels() {
+  const cityOrder = ['tokyo','kanazawa','kyoto','arima','osaka','itami'];
+  const colors = {tokyo:'var(--indigo)',kanazawa:'var(--moss)',kyoto:'#8a3040',arima:'var(--teal)',osaka:'var(--amber)',itami:'var(--purple)'};
+  const dates = {tokyo:'Apr 8–12 · 5 nights',kanazawa:'Apr 13–14 · 2 nights',kyoto:'Apr 15–18 · 4 nights',arima:'Apr 18–19 · 1 night',osaka:'Apr 19–21 · 3 nights',itami:'Apr 21 night · Departure'};
+
+  document.getElementById('hotels-container').innerHTML = cityOrder.map(city => {
+    const h = HOTEL_DATA[city];
+    return `<div style="background:white;border-radius:14px;padding:18px;margin-bottom:14px;border:1.5px solid var(--parchment);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--parchment);">
+        <div>
+          <div style="font-family:Shippori Mincho,serif;font-size:16px;font-weight:700;color:${colors[city]}">${h.name}</div>
+          <div style="font-size:11px;color:var(--mist);margin-top:2px;">${h.nameJa} · ${dates[city]}</div>
+        </div>
+        <span style="font-size:10px;background:var(--done-light);color:var(--done);padding:3px 9px;border-radius:8px;font-weight:600;">✓ Confirmed</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:10px;">
+        <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;color:var(--mist);margin-bottom:2px;">Address</div>
+          <div style="font-size:12px;color:var(--ink);font-weight:500;">${h.address}</div>
+          <div style="font-size:11px;color:var(--mist);margin-top:2px;">${h.addressJa}</div></div>
+        <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;color:var(--mist);margin-bottom:2px;">Phone</div>
+          <div style="font-size:12.5px;color:var(--ink);font-weight:500;">${h.phone}</div></div>
+        <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;color:var(--mist);margin-bottom:2px;">Check-in / Check-out</div>
+          <div style="font-size:12.5px;color:var(--ink);font-weight:500;">${h.checkin} / ${h.checkout}</div></div>
+        <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;color:var(--mist);margin-bottom:2px;">Confirmation</div>
+          <div style="font-size:12px;color:var(--ink);font-weight:500;">${h.conf}</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--ash);background:var(--cream);border-radius:8px;padding:9px 12px;margin-bottom:8px;line-height:1.55;">${h.note}</div>
+      <div style="font-size:12px;color:var(--indigo);background:var(--indigo-light);border-radius:8px;padding:8px 12px;border-left:2px solid var(--indigo);line-height:1.55;">🗺️ ${h.directions}</div>
+    </div>`;
+  }).join('');
+}
+
+
+
+
+
+function switchTab(tab, e) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  if (e&&e.currentTarget) e.currentTarget.classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+  if (tab==='actions') renderActions();
+  if (tab==='hotels') renderHotels();
+}
+
+try {
+  renderDaySelector();
+  renderDay();
+  renderActions();
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
+} catch(e) {
+  console.log('Init error:', e);
+}
+</script>
+</body>
+</html>
